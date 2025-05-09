@@ -60,6 +60,7 @@ class model extends \Kotchasan\Model{
                 $action = $request->post('action')->toString(); 
                 // Database
                 $db = $this->db();
+                $db->query("TRUNCATE TABLE label_id;");
                 // id ที่ส่งมา
                 if ($action ==='addlocation'){
 
@@ -90,7 +91,38 @@ class model extends \Kotchasan\Model{
                             $params['module'] = 'wms-export';
                             $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=stock&amp;';
     
+                        } elseif ($action ==='print'){
+    
+                            foreach ($match[1] As $row){
+
+                                $detail = \wms\packinglist\Model::getdetail($row);
+
+                                if ($detail == true) {
+
+                                    $insert = array(
+                                        'id' => NULL,
+                                        'container' => $detail[0]->container,
+                                        'case_no' => $detail[0]->case_number,
+                                        'box_id' => $detail[0]->box_id,
+                                        'material' => $detail[0]->temp_material,
+                                        'material_name' => $detail[0]->material_name_en,
+                                        'qty' => $detail[0]->quantity,
+                                        'qr_code' => '0010000475_'.$detail[0]->temp_material.'_B060501_'.$detail[0]->quantity.'_'.$detail[0]->box_id.'_A100',
+                                        'delivery_date' => date('Y-m-d')
+                                    );
+    
+                                    $db->insert($this->getTableName('label_id'),$insert);
+                                  
+                                }
+                            }
+    
                         } 
+                    }
+
+                    
+                    if ($action ==='print') {
+                        $ret['alert'] = Language::get('Saved successfully');
+                        $ret['open'] = 'https://sail.anjinyk.co.th/pdf/kd-label';
                     }
                 }
 
