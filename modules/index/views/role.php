@@ -29,14 +29,13 @@ class View extends \Gcms\View{
                 'class' => 'ok',
                 'text' => '{LNG_With selected}',
                 'options' => array(
-                    'print' => '{LNG_Print}',
-                    'delete' => '{LNG_Delete}',
+                    'delete' => '{LNG_Delete}'
                 )
             ),
                 array(
-                    'id' => 'addlocation',
+                    'id' => 'addrole',
                     'class' => 'button green icon-new',
-                    'text' => '{LNG_Add}{LNG_Location}',
+                    'text' => '{LNG_Add}{LNG_Role master}',
                 )
             ),
             'headers' => array(

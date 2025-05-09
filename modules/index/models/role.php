@@ -61,7 +61,7 @@ class model extends \Kotchasan\Model{
                 // Database
                 $db = $this->db();
                 // id ที่ส่งมา
-                if ($action ==='addlocation'){
+                if ($action ==='addrole') {
 
                     $index = \wms\location\Model::get($request->post('id')->toInt());
 
@@ -74,9 +74,9 @@ class model extends \Kotchasan\Model{
 
                             //var_dump('delete');
                             // ลบ
-                            $db->delete($this->getTableName('location'), array('id', $match[1]), 0); 
+                            $db->delete($this->getTableName('role'), array('id', $match[1]), 0); 
                             // log
-                            \Index\Log\Model::add(0, 'location', 'Delete', '{LNG_Delete} {LNG_Inventory} ID : '.implode(', ', $match[1]), $login['id']);
+                            \Index\Log\Model::add(0, 'location', 'Delete', '{LNG_Delete} {LNG_Role master} ID : '.implode(', ', $match[1]), $login['id']);
                             // reload
                             $ret['location'] = 'reload';
     
