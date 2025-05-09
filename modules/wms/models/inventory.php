@@ -25,6 +25,16 @@ class model extends \Kotchasan\Model{
         ->order('id');
     }
 
+    public static function getdetail($id){
+        return static::createQuery()
+        ->select('T1.id','T3.container','T3.case_number','T3.box_id','T3.temp_material','T2.material_name_en','T1.actual_quantity')
+        ->from('inventory_stock T1')
+        ->join('packing_list T3','LEFT',array('T1.reference','T3.id'))
+        ->join('material T2','LEFT',array('T1.material_id','T2.id'))
+        ->where(array('T1.id',$id))
+        ->execute();
+    }
+
     public static function get($id){
         
         $id = trim($id);
@@ -95,7 +105,7 @@ class model extends \Kotchasan\Model{
     
                             foreach ($match[1] As $row){
 
-                                $detail = \wms\packinglist\Model::getdetail($row);
+                                $detail = \wms\inventory\Model::getdetail($row);
 
                                 if ($detail == true) {
 
@@ -106,8 +116,8 @@ class model extends \Kotchasan\Model{
                                         'box_id' => $detail[0]->box_id,
                                         'material' => $detail[0]->temp_material,
                                         'material_name' => $detail[0]->material_name_en,
-                                        'qty' => $detail[0]->quantity,
-                                        'qr_code' => '0010000475_'.$detail[0]->temp_material.'_B060501_'.$detail[0]->quantity.'_'.$detail[0]->box_id.'_A100',
+                                        'qty' => $detail[0]->actual_quantity,
+                                        'qr_code' => '0010000475_'.$detail[0]->temp_material.'_B060501_'.$detail[0]->actual_quantity.'_'.$detail[0]->box_id.'_A100',
                                         'delivery_date' => date('Y-m-d')
                                     );
     
