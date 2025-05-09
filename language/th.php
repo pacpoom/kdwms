@@ -715,4 +715,7 @@ return array(
   'Shipping Stock' => 'สต๊อกการจัดส่ง',
   'Shipping Stock Report' => 'รายงานสต๊อกการจัดส่ง',
   'Shipping Date' => 'วันที่จัดส่ง',
+  'Role master' => 'ข้อมูลบทบาท',
+  'Role Name' => 'ชื่อบทบาท',
+  'Role Description' => 'รายละเอียดบทบาท',
 );
