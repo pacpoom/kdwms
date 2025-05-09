@@ -35,29 +35,29 @@ class View extends \Gcms\View{
                 )
             ),
             'headers' => array(
-                'container' => array(
-                    'text' => '{LNG_Container Number}'
+                'sale_order' => array(
+                    'text' => '{LNG_Sale Order}',
                 ),
-                'case_number' => array(
-                    'text' => '{LNG_Case Number}'
+                'customer_code' => array(
+                    'text' => '{LNG_Customer Code}',
                 ),
-                'box_id' => array(
-                    'text' => '{LNG_Box ID}'
+                'customer_name' => array(
+                    'text' => '{LNG_Customer Name}',
                 ),
-                'temp_material' => array(
-                    'text' => '{LNG_Material Number}'
+                'serial_number' => array(
+                    'text' => '{LNG_serial Number}',
+                ),
+                'material_number' => array(
+                    'text' => '{LNG_Material Number}',
                 ),
                 'quantity' => array(
-                    'text' => '{LNG_Quantity}'
+                    'text' => '{LNG_Quantity}',
                 ),
-                'delivery_order' => array(
-                    'text' => '{LNG_Delivery Type}'
+                'ship_date' => array(
+                    'text' => '{LNG_Shipping Date}',
                 ),
-                'container_received' => array(
-                    'text' => '{LNG_Received Date}'
-                ),
-                'storage_location' => array(
-                    'text' => '{LNG_Location}'
+                'pallet_no' => array(
+                    'text' => '{LNG_Pallet No}',
                 )
             ),
         ));

@@ -29,7 +29,7 @@ class Controller extends \Gcms\Controller{
          'innerHTML'=>'<h4 class="icon-config">'.$this->title.'</h4>'
         ));
  
-        $section->appendChild(\wms\cystock\View::create()->render($request));
+        $section->appendChild(\wms\shipstock\View::create()->render($request));
  
         return $section->render();
 
