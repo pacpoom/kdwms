@@ -37,7 +37,7 @@ class model extends \Kotchasan\Model{
             } 
 
             if (!empty($params['customer'])) {
-                $where[] = array('T1.customer_code',$params['customer']);
+                $where[] = array('T2.customer_code',$params['customer']);
             }
 
             if (!empty($params['from'])){
