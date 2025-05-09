@@ -712,4 +712,6 @@ return array(
   'File Name' => 'ชื่อไฟล์',
   'Role ID' => 'รหัสบทบาท',
   'User Master' => 'ข้อมูลสมาชิก',
+  'Shipping Stock' => 'สต๊อกการจัดส่ง',
+  'Shipping Stock Report' => 'รายงานสต๊อกการจัดส่ง',
 );
