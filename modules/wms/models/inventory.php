@@ -105,19 +105,26 @@ class model extends \Kotchasan\Model{
     
                             foreach ($match[1] As $row){
 
-                                $detail = \wms\inventory\Model::getdetail($row);
-
+                                $detail = \wms\inventory\Model::getdetail($row);                 
+            
                                 if ($detail == true) {
+
+                                    $container = isset($detail[0]->container) ? $detail[0]->container : '';
+                                    $case_number = isset($detail[0]->case_number) ? $detail[0]->case_number : '';
+                                    $box_id = isset($detail[0]->box_id) ? $detail[0]->box_id : '';
+                                    $temp_material = isset($detail[0]->temp_material) ? $detail[0]->temp_material : '';
+                                    $material_name_en = isset($detail[0]->material_name_en) ? $detail[0]->material_name_en : '';
+                                    $actual_quantity = isset($detail[0]->actual_quantity) ? $detail[0]->actual_quantity : 0;
 
                                     $insert = array(
                                         'id' => NULL,
-                                        'container' => $detail[0]->container,
-                                        'case_no' => $detail[0]->case_number,
-                                        'box_id' => $detail[0]->box_id,
-                                        'material' => $detail[0]->temp_material,
-                                        'material_name' => $detail[0]->material_name_en,
-                                        'qty' => $detail[0]->actual_quantity,
-                                        'qr_code' => '0010000475_'.$detail[0]->temp_material.'_B060501_'.$detail[0]->actual_quantity.'_'.$detail[0]->box_id.'_A100',
+                                        'container' => $container,
+                                        'case_no' => $case_number,
+                                        'box_id' => $box_id,
+                                        'material' => $temp_material,
+                                        'material_name' => $material_name_en,
+                                        'qty' => $actual_quantity,
+                                        'qr_code' => '0010000475_'.$temp_material.'_B060501_'.$actual_quantity.'_'.$box_id.'_A100',
                                         'delivery_date' => date('Y-m-d')
                                     );
     
