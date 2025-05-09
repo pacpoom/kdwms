@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang={LANGUAGE} dir=ltr>
+
+<head>
+  <meta charset=utf-8>
+  <link rel=stylesheet href={WEBURL}modules/product/CSS/print.css>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@200&display=swap" rel="stylesheet">
+  <link rel=stylesheet href={WEBURL}skin/fonts.css>
+  <title>Picking sheet Order Form</title>
+</head>
+
+
+<style type="text/css">
+  .tg  {border-collapse:collapse;border-spacing:0;}
+  .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    overflow:hidden;padding:12px 5px;word-break:normal;}
+  .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+    font-weight:normal;overflow:hidden;padding:8px 5px;word-break:normal;}
+  .tg .tg-zv4m{border-color:#ffffff;text-align:left;vertical-align:top}
+  .tg .tg-ofj5{border-color:#ffffff;text-align:right;vertical-align:top}
+</style>
+<body>
+  <a class="icon-print " href="#" onclick="window.print() " title="พิมพ์หน้านี้ "></a>
+  <section>
+    <h1><b>Picking sheet Order Form</b></h1>
+   
+    <table class="tg">
+      <thead>
+        <tr>
+          <th class="tg-zv4m">{LNG_Job No}:</th>
+          <th class="tg-zv4m">%JOB_NO%</th>
+          <th class="tg-zv4m">{LNG_Production Date}:</th>
+          <th class="tg-zv4m">%DATE%</th>
+        </tr>
+        <tr>
+          <th class="tg-zv4m">{LNG_Purchase Order}:</th>
+          <th class="tg-zv4m">%PO%</th>
+          <th class="tg-zv4m">{LNG_Delievry Date}:</th>
+          <th class="tg-zv4m">%DELIVERY%</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="tg-zv4m">{LNG_Plan Quantity}:</td>
+          <td class="tg-zv4m">%ORDER%(SET)</td>
+          <td class="tg-zv4m">{LNG_Finished Goods}:</td>
+          <td class="tg-zv4m">%MODEL%</td>
+          <td class="tg-zv4m">{LNG_Finished Goods Name}:</td>
+          <td class="tg-zv4m">%NAME%</td>
+          <td class="tg-zv4m"></td>
+          <td class="tg-zv4m"></td>
+        </tr>
+      </tbody>
+      
+    </table>
+      <table class="border">
+        <thead>
+          <tr>%THEAD%</tr>
+        </thead>
+        <tbody>
+          %TBODY%
+        </tbody>
+      </table>
+
+
+
+    <!-- <table>
+      <tr>
+        <td class="center">{LNG_Name} %NAME%</td>
+        <td class="center">{LNG_Student ID} %STUDENT%</td>
+        <td class="center">{LNG_Room} %ROOM%</td>
+        <td class="center">{LNG_Number} %NUMBER%</td>
+      </tr>
+    </table>
+    <table class="border">
+      <thead>
+        <tr>%THEAD%</tr>
+      </thead>
+      <tbody>
+        %TBODY%
+      </tbody>
+    </table>
+    <table style="width:auto">
+      <tr>
+        <td>{LNG_Credits in this semester}</td>
+        <td>%CREDITS%</td>
+        <td>{LNG_Grades in this semester}</td>
+        <td>%GRADES%</td>
+      </tr>
+    </table> -->
+  </section>
+</body>
+
+</html>

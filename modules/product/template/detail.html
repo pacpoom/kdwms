@@ -1,0 +1,48 @@
+<!-- <style>
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+table.center {
+  margin-left: auto; 
+  margin-right: auto;
+}
+</style> -->
+<form class="setup_frm" >
+  <fieldset class="item">
+    <table class="repair_detail">
+      <tr>
+        <td scope="rowgroups" colspan="2">
+          <h2>{LNG_Details of} {LNG_Job Order}</h2>
+        </td>
+      </tr>
+      <tr>
+        <td class="icon-news">{LNG_Job No} :</td>
+        <td>%JOB_NO%</td>
+        <td class="icon-documents">{LNG_Purchase Order} :</td>
+        <td>%PO%</td>
+      </tr>
+      <tr>
+        <td class="icon-gps">{LNG_Finished Goods} :</td>
+        <td>%FG%</td>
+        <td class="icon-shipping">{LNG_Delievry Date} :</td>
+        <td>%DELIEVRY%</td>
+      </tr>
+      <tr>
+        <td class="icon-clip">{LNG_Finished Goods Name} :</td>
+        <td>%NAME%</td>
+      </tr>
+      <tr>
+        <td class="icon-comments">{LNG_Plan Quantity} :</td>
+        <td>%PLAN%</td>
+      </tr>
+    </table>
+  </fieldset>
+</form>
+<fieldset>
+  <legend>
+    <span>{LNG_Job Order Detail}</span>
+  </legend>
+  %DETAILS%
+</fieldset>
