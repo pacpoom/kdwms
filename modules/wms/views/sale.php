@@ -48,7 +48,7 @@ class View extends \Gcms\View{
             'sort' => $request->cookie('sort', 'id desc')->toString(),
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
-            'searchColumns' => array('sale_order','delivery_date'),
+            'searchColumns' => array('sale_order','customer_code','customer_name'),
             'hideCheckbox' => true,
             'action' => 'index.php/wms/model/sale/action',
             'actionCallback' =>'dataTableActionCallback',
