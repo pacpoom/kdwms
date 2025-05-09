@@ -30,9 +30,11 @@ class View extends \Gcms\View{
         );
 
         $status = array(
-            0 => 'Pending',
-            1 => 'Complete',
-            2 => 'All'
+            0 => 'Release',
+            1 => 'Print',
+            2 => 'Picking',
+            3 => 'Truck Confirm',
+            4 => 'Delivery'
         );
         
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
