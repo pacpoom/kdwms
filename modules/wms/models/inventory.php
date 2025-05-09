@@ -27,7 +27,7 @@ class model extends \Kotchasan\Model{
 
     public static function getdetail($id){
         return static::createQuery()
-        ->select('T1.id','T3.container','T3.case_number','T3.box_id','T3.temp_material','T2.material_name_en','T1.actual_quantity')
+        ->select('T1.id','T3.container','T3.case_number','T1.serial_number','T2.material_number','T2.material_name_en','T1.actual_quantity')
         ->from('inventory_stock T1')
         ->join('packing_list T3','LEFT',array('T1.reference','T3.id'))
         ->join('material T2','LEFT',array('T1.material_id','T2.id'))
@@ -111,8 +111,8 @@ class model extends \Kotchasan\Model{
 
                                     $container = isset($detail[0]->container) ? $detail[0]->container : '';
                                     $case_number = isset($detail[0]->case_number) ? $detail[0]->case_number : '';
-                                    $box_id = isset($detail[0]->box_id) ? $detail[0]->box_id : '';
-                                    $temp_material = isset($detail[0]->temp_material) ? $detail[0]->temp_material : '';
+                                    $serial_number = isset($detail[0]->serial_number) ? $detail[0]->serial_number : '';
+                                    $material_number = isset($detail[0]->material_number) ? $detail[0]->material_number : '';
                                     $material_name_en = isset($detail[0]->material_name_en) ? $detail[0]->material_name_en : '';
                                     $actual_quantity = isset($detail[0]->actual_quantity) ? $detail[0]->actual_quantity : 0;
 
@@ -120,11 +120,11 @@ class model extends \Kotchasan\Model{
                                         'id' => NULL,
                                         'container' => $container,
                                         'case_no' => $case_number,
-                                        'box_id' => $box_id,
-                                        'material' => $temp_material,
+                                        'box_id' => $serial_number,
+                                        'material' => $material_number,
                                         'material_name' => $material_name_en,
                                         'qty' => $actual_quantity,
-                                        'qr_code' => '0010000475_'.$temp_material.'_B060501_'.$actual_quantity.'_'.$box_id.'_A100',
+                                        'qr_code' => '0010000475_'.$material_number.'_B060501_'.$actual_quantity.'_'.$serial_number.'_A100',
                                         'delivery_date' => date('Y-m-d')
                                     );
     
