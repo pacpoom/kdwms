@@ -73,7 +73,8 @@ class Model extends \Kotchasan\Model
                         'provinceID' => $request->post('register_provinceID')->number(),
                         'province' => $request->post('register_province')->topic(),
                         'zipcode' => $request->post('register_zipcode')->number(),
-                        'country' => $request->post('register_country')->filter('A-Z')
+                        'country' => $request->post('register_country')->filter('A-Z'),
+                        'role_id' => $request->post('register_status')->toInt(),
                     );
                     // ชื่อตาราง
                     $table_user = $this->getTableName('user');

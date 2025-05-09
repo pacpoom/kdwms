@@ -214,11 +214,13 @@ class Model extends \Kotchasan\Model{
         $where = array();
         $where[] = array('T1.pallet_no',$pallet);
         $where[] = array('T1.sale_order',$so);
+        $where[] = array('T1.truck_confirm',0);
 
         return static::createQuery()
-        ->select('T1.id','T1.truck_id')
+        ->select('T1.pallet_no','T1.truck_id')
         ->from('delivery_order T1')
         ->where($where)
+        ->groupBy('T1.pallet_no','T1.truck_id')
         ->execute();
 
     }
@@ -282,9 +284,9 @@ class Model extends \Kotchasan\Model{
 
                                 $check_pallet_detail = \wms\truck\Model::GetPallet_detail($request->post('so')->toString(),$request->request('pallet')->toString());
 
-                                if ($check_pallet_detail == false) {
+                                if ($check_pallet_detail == true) {
                                     $ret['pallet']='';
-                                    $ret['fault'] = Language::get('Pallet No. Incorrect SO');
+                                    $ret['fault'] = Language::get('Some Boxes Not Confirmed !!');
                                 } else {
 
                                     $update = array(
