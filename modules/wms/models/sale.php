@@ -14,7 +14,6 @@ class model extends \Kotchasan\Model{
     public static function toDataTable($params){
         
         $where = array();
-        $params = array();
         
             if ($params['status'] == 0) {
                 $where[] = array('T1.status',0);
@@ -30,7 +29,7 @@ class model extends \Kotchasan\Model{
 
             } elseif ($params['status'] == 4) {
                 $where[] = array('T1.status',4);
-                
+
             }
 
             if (!empty($params['so'])) {
