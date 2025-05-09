@@ -24,10 +24,18 @@ class View extends \Gcms\View{
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
             'searchColumns' => array('id','serial_number','material_number','location_code','case_number'),
-            'hideCheckbox' => true,
+            'hideCheckbox' => false,
             'action' => 'index.php/wms/model/inventory/action',
             'actionCallback' =>'dataTableActionCallback',
             'actions' => array(
+                array(
+                    'id' => 'action',
+                    'class' => 'ok',
+                    'text' => '{LNG_With selected}',
+                    'options' => array(
+                        'print' => '{LNG_Print}',
+                    )
+                ),
                 array(
                     'class' => 'button orange icon-excel',
                     'id' => 'export&'.http_build_query($export),
