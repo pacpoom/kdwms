@@ -15,49 +15,17 @@ class model extends \Kotchasan\Model{
         
         $where = array();
         $params = array();
+        
             if ($params['status'] == 0) {
                 $where[] = array('T1.status',0);
             } elseif ($params['status'] == 1){
-                $where[] = array('T1.status',1);
-                
-                if (empty($params['so'])) {
-                    if (!empty($params['from'])){
-                        $strNewDate = date('Ymd', strtotime($params['from']));
-                        $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                    } else {
-                        $strNewDate = date('Ymd');
-                        $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                    }
-        
-                    if (!empty($params['to'])){
-                        $strNewDate = date('Ymd', strtotime($params['to']));
-                        $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                    } else {
-                        $strNewDate = date('Ymd');
-                        $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                    }
-                }
-
+                $where[] = array('T1.status',1)
             } elseif ($params['status'] == 2) {
-
-                if (empty($params['so'])) {
-                    if (!empty($params['from'])){
-                        $strNewDate = date('Ymd', strtotime($params['from']));
-                        $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                    } else {
-                        $strNewDate = date('Ymd');
-                        $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                    }
-        
-                    if (!empty($params['to'])){
-                        $strNewDate = date('Ymd', strtotime($params['to']));
-                        $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                    } else {
-                        $strNewDate = date('Ymd');
-                        $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                    }
-                }
-
+                $where[] = array('T1.status',2)
+            } elseif ($params['status'] == 3) {
+                $where[] = array('T1.status',3)
+            } elseif ($params['status'] == 4) {
+                $where[] = array('T1.status',4)
             }
 
             if (!empty($params['so'])) {
@@ -69,12 +37,12 @@ class model extends \Kotchasan\Model{
             }
 
             if (!empty($params['from'])){
-                $strNewDate = date('Ymd', strtotime($params['from']));
+                $strNewDate = date('Y-m-d', strtotime($params['from']));
                 $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
             }
 
             if (!empty($params['to'])){
-                $strNewDate = date('Ymd', strtotime($params['to']));
+                $strNewDate = date('Y-m-d', strtotime($params['to']));
                 $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
             }
         

@@ -34,7 +34,8 @@ class View extends \Gcms\View{
             1 => 'Print',
             2 => 'Picking',
             3 => 'Truck Confirm',
-            4 => 'Delivery'
+            4 => 'Delivery',
+            5 => 'All'
         );
         
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
