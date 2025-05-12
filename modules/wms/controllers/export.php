@@ -90,7 +90,7 @@ class Controller extends \Kotchasan\Controller
         );
 
         $data = \wms\export\Model::containers($params);
-
+        $i = 0;
         foreach ($data as $item){
         
             $rs['no'] = ++$i;
