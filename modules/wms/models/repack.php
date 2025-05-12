@@ -228,7 +228,7 @@ class Model extends \Kotchasan\Model{
                                             'temp_container' => date('Ymd'),
                                             'temp_material' => $request->post('material_number')->toString(),
                                             'gr_flg' => 1,
-                                            'cy_flg' => 1,
+                                            'cy_flg' => 0,
                                             'container_received' => date('Y-m-d H:i:s'),
                                             'file_name' => '-',
                                             'tr_flg' => 1,
