@@ -73,6 +73,27 @@ class View extends \Gcms\View{
     public function render (Request $request){
 
         $params = array();
+        $export = array();
+
+        $params = array(
+            'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'container' => $request->request('container')->toString(),
+            'status' => $request->request('status')->toInt(),
+        );
+
+        $export = array(
+            'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'container' => $request->request('container')->toString(),
+            'status' => $request->request('status')->toInt(),
+        );
+
+        $status = array(
+            0 => 'Waiting Receive',
+            1 => 'Received',
+            2 => 'All',
+        );
 
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         $this->category = \index\category\Model::init(false);
@@ -89,10 +110,38 @@ class View extends \Gcms\View{
             'actionCallback' =>'dataTableActionCallback',
             'actions' => array(
                 array(
-                    'id' => 'excel',
+                    'id' => 'export',
                     'class' => 'button green icon-new',
                     'text' => '{LNG_Download}',
                 )
+            ),
+            'filters' => array(
+                array(
+                    'type' => 'date',
+                    'name' => 'from',
+                    'text' => '{LNG_from}',
+                    'value' => $params['from'],
+                    'placeholder' => 'วันเริ่ม'
+                    ),
+                    array(
+                    'type' => 'date',
+                    'name' => 'to',
+                    'text' => '{LNG_to}',
+                    'value' => $params['to'],
+                    'placeholder' => 'วันสิ้นสุด'
+                    ),
+                    array(
+                        'name' => 'status',
+                        'text' => '{LNG_Status}',
+                        'options' => $status,
+                        'value' => $params['status']
+                    ),
+                    array(
+                        'type' => 'text',
+                        'name' => 'container',
+                        'value' => $params['container'],
+                        'placeholder' => '{LNG_Container}',
+                    ),
             ),
             'headers' => array(
                 'status' => array(

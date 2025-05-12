@@ -14,14 +14,42 @@ class model extends \Kotchasan\Model{
     private $row = 0;
     
     public static function toDataTable($params){
-        $params = array();
+
+        $where = array();
+
+        if ($params['status'] == 0) {
+            $where[] = array('status',0);
+        } elseif ($params['status'] == 1){
+            $where[] = array('status',1);
+        }
+        
+        if (!empty($params['from'])){
+                $strNewDate = date('Y-m-d', strtotime($params['from']));
+                $where[] = array(sql::DATE('delivery_date'),'>=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d', strtotime('-365 day'));
+                $where[] = array(sql::DATE('delivery_date'),'>=',$strNewDate);
+        } 
+        
+        if (!empty($params['to'])){
+                $strNewDate = date('Y-m-d', strtotime($params['to']));
+                $where[] = array(sql::DATE('delivery_date'),'<=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d');
+                $where[] = array(sql::DATE('delivery_date'),'<=',$strNewDate);
+        } 
+
+        if (!empty($params['container'])) {
+            $where[] = array('container',$params['container']);
+        } 
 
         return static::createQuery()
         ->select('id','status','receive_date','year_lot','week_lot','lot_no','container_size','model','delivery_date','eta_date'
         ,'ata_date','container_type','container','container_bl','total_material','total_case','total_box','total_quantity'
         ,'receive_material','receive_case','receive_box','receive_quantity')
         ->from('container')
-        ->order('delivery_date');
+        ->where($where)
+        ->order('delivery_date desc');
 
     }
 
@@ -55,9 +83,12 @@ class model extends \Kotchasan\Model{
     
                     $ret['modal'] = Language::trans(\wms\containers\View::create()->render($index,$login['id']));
                     //$ret['modal'] = Language::trans(\wms\materials\View::create()->render($index,$login));
+                } elseif ($action ==='export') {
+                    $params = $request->getParsedBody();
+                    $params['module'] = 'wms-export';
+                    $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=containers&amp;';
                 }
-
-            }
+            } 
         }
         if (empty($ret)) {
             $ret['alert'] = Language::get('Unable to complete the transaction');

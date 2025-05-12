@@ -93,6 +93,35 @@ class Model extends \Kotchasan\KBase
         return $header;
     }
 
+     public static function containers(){
+
+        $header = array();
+        $header['no'] = 'No';
+        $header['status'] = Language::trans('{LNG_Status}');
+        $header['receive_date'] = Language::trans('{LNG_Receive Date}');
+        $header['year_lot'] = Language::trans('{LNG_Year Lot}');
+        $header['week_lot'] = Language::trans('{LNG_Week Lot}');
+        $header['lot_no'] = Language::trans('{LNG_Lot Number}');
+        $header['container_size'] = Language::trans('{LNG_Container Size}');
+        $header['model'] = Language::trans('{LNG_Model}');
+        $header['delivery_date'] = Language::trans('{LNG_Delivery Date}');
+        $header['eta_date'] = Language::trans('{LNG_ETA Date}');
+        $header['ata_date'] = Language::trans('{LNG_ATA Date}');
+        $header['container_type'] = Language::trans('{LNG_Container Type}');
+        $header['container'] = Language::trans('{LNG_Container}');
+        $header['container_bl'] = Language::trans('{LNG_Container BL}');
+        $header['total_material'] = Language::trans('{LNG_Total Material}');
+        $header['total_case'] = Language::trans('{LNG_Total Case}');
+        $header['total_box'] = Language::trans('{LNG_Total Box}');
+        $header['total_quantity'] = Language::trans('{LNG_Total Quantity}');
+        $header['receive_material'] = Language::trans('{LNG_Receive Material}');
+        $header['receive_case'] = Language::trans('{LNG_Receive Case}');
+        $header['receive_box'] = Language::trans('{LNG_Receive Box}');
+        $header['receive_quantity'] = Language::trans('{LNG_Receive Quantity}');
+
+        return $header;
+    }
+
     public static function packing_list(){
 
         $header = array(

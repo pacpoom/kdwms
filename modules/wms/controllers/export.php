@@ -68,9 +68,60 @@ class Controller extends \Kotchasan\Controller
             case 'container' :
                 $this->container($request);
                 break;
+            case 'containers' :
+                $this->containers($request);
+                break;
         }
 
     }
+
+    private function containers(Request $request){
+
+        $header = \wms\csv\Model::containers();
+        $data = array();
+        $datas = array();
+        $param = 'containers'. date('His');
+
+        $params = array(
+            'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'container' => $request->request('container')->toString(),
+            'status' => $request->request('status')->toInt(),
+        );
+
+        $data = \wms\export\Model::containers($params);
+
+        foreach ($data as $item){
+        
+            $rs['no'] = ++$i;
+            $rs['status'] = $item['status'];
+            $rs['receive_date'] = $item['receive_date'];
+            $rs['year_lot'] = $item['year_lot'];
+            $rs['week_lot'] = $item['week_lot'];
+            $rs['lot_no'] = $item['lot_no'];
+            $rs['container_size'] = $item['container_size'];
+            $rs['model'] = $item['model'];
+            $rs['delivery_date'] = $item['delivery_date'];
+            $rs['eta_date'] = $item['eta_date'];
+            $rs['ata_date'] = $item['ata_date'];
+            $rs['container_type'] = $item['container_type'];
+            $rs['container'] = $item['container'];
+            $rs['container_bl'] = $item['container_bl'];
+            $rs['total_material'] = $item['total_material'];
+            $rs['total_case'] = $item['total_case'];
+            $rs['total_box'] = $item['total_box'];
+            $rs['total_quantity'] = $item['total_quantity'];
+            $rs['receive_material'] = $item['receive_material'];
+            $rs['receive_case'] = $item['receive_case'];
+            $rs['receive_box'] = $item['receive_box'];
+            $rs['receive_quantity'] = $item['receive_quantity'];
+
+            $datas[] = $rs;
+        }
+
+        return \Kotchasan\Csv::send($param, $header, $datas, self::$cfg->csv_language);
+    }
+
 
     private function container(Request $request){
 

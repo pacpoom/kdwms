@@ -9,6 +9,48 @@ use Kotchasan\Database\Sql;
 
 class model extends \Kotchasan\Model{
 
+    public static function containers($params) {
+
+     $where = array();
+
+        if ($params['status'] == 0) {
+            $where[] = array('status',0);
+        } elseif ($params['status'] == 1){
+            $where[] = array('status',1);
+        }
+        
+        if (!empty($params['from'])){
+                $strNewDate = date('Y-m-d', strtotime($params['from']));
+                $where[] = array(sql::DATE('delivery_date'),'>=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d', strtotime('-365 day'));
+                $where[] = array(sql::DATE('delivery_date'),'>=',$strNewDate);
+        } 
+        
+        if (!empty($params['to'])){
+                $strNewDate = date('Y-m-d', strtotime($params['to']));
+                $where[] = array(sql::DATE('delivery_date'),'<=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d');
+                $where[] = array(sql::DATE('delivery_date'),'<=',$strNewDate);
+        } 
+
+        if (!empty($params['container'])) {
+            $where[] = array('container',$params['container']);
+        } 
+
+        return static::createQuery()
+        ->select('id','status','receive_date','year_lot','week_lot','lot_no','container_size','model','delivery_date','eta_date'
+        ,'ata_date','container_type','container','container_bl','total_material','total_case','total_box','total_quantity'
+        ,'receive_material','receive_case','receive_box','receive_quantity')
+        ->from('container')
+        ->where($where)
+        ->order('delivery_date desc')
+        ->toArray()
+        ->execute();
+
+    }
+
     public static function requisition($params){
         
         $where = array();
