@@ -155,12 +155,19 @@ class Model extends \Kotchasan\KBase
         $header['sale_order'] = Language::trans('{LNG_Sale Order Number}');
         $header['material_number'] = Language::trans('{LNG_Material Number}');
         $header['serial_number'] = Language::trans('{LNG_Box ID}');
-        $header['actual_quantity'] = Language::trans('{LNG_Quantity}');
+        $header['original_location'] = Language::trans('{LNG_Original Location}');
+        $header['quantity'] = Language::trans('{LNG_Quantity}');
         $header['location_code'] = Language::trans('{LNG_Location}');
         $header['pick'] = Language::trans('{LNG_Pick Box}');
         $header['ship_date'] = Language::trans('{LNG_Ship Date}');
+        $header['truck_confirm_date'] = Language::trans('{LNG_Confirm Date}');
         $header['pallet_no'] = Language::trans('{LNG_Pallet No}');
         $header['truck_id'] = Language::trans('{LNG_Truck ID}');
+        $header['confirm_flg'] = Language::trans('{LNG_Print Truck}');
+        $header['confirm_date'] = Language::trans('{LNG_Print Date}');
+        $header['file_name'] = Language::trans('{LNG_File Name}');
+       
+        
         return $header;
     }
 

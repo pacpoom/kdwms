@@ -132,6 +132,12 @@ class View extends \Gcms\View{
                 'file_name' => array(
                     'text' => '{LNG_File Name}'
                 ),
+                'original_location' => array(
+                    'text' => '{LNG_Original Location}'
+                ),
+                'truck_confirm_date' => array(
+                    'text' => '{LNG_Confirm Date}'
+                ),
             )
         ));
                 // save cookie

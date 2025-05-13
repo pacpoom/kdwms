@@ -204,7 +204,12 @@ class Controller extends \Kotchasan\Controller
     private function detail(Request $request){
 
         $params = array(
-            'sale_order' => $request->get('sale_order')->toString(),
+            'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'sale_order' => $request->request('sale_order')->toString(),
+            'material_number' => $request->request('material_number')->toString(),
+            'create_from' => $request->request('create_from')->date(),
+            'create_to' => $request->request('create_to')->date(),
         );
 
         $header = \wms\csv\Model::detail();
@@ -220,12 +225,17 @@ class Controller extends \Kotchasan\Controller
             $rs['sale_order'] = $item['sale_order'];
             $rs['material_number'] = $item['material_number'];
             $rs['serial_number'] = $item['serial_number'];
-            $rs['actual_quantity'] = $item['actual_quantity'];
+            $rs['original_location'] = $item['original_location'];
+            $rs['quantity'] = $item['quantity'];
             $rs['location_code'] = $item['location_code'];
             $rs['pick'] = $item['pick'];
             $rs['ship_date'] = $item['ship_date'];
+            $rs['truck_confirm_date'] = $item['truck_confirm_date'];
             $rs['pallet_no'] = $item['pallet_no'];
             $rs['truck_id'] = $item['truck_id'];
+            $rs['confirm_flg'] = $item['confirm_flg'];
+            $rs['confirm_date'] = $item['confirm_date'];
+            $rs['file_name'] = $item['file_name'];
             $datas[] = $rs;
         }
         return \Kotchasan\Csv::send($file_name, $header, $datas, self::$cfg->csv_language);

@@ -51,12 +51,13 @@ class model extends \Kotchasan\Model{
 
        // var_dump($where);
         return static::createQuery()
-        ->select('T1.id','T1.sale_order','T1.material_number','T3.serial_number','T1.quantity'
-        ,'T4.location_code','T2.serial_number pick','T1.ship_date','T1.pallet_no','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
+        ->select('T1.id','T1.sale_order','T1.material_number','T3.serial_number','T5.location_code original_location'
+        ,'T2.serial_number pick','T4.location_code','T1.quantity','T1.ship_date','T1.pallet_no','T1.truck_confirm_date','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
         ->from('delivery_order T1')
         ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
         ->join('inventory_stock T3','LEFT',array('T1.inventory_id','T3.id'))
         ->join('location T4','LEFT',array('T2.location_id','T4.id'))
+        ->join('location T5','LEFT',array('T3.location_id','T5.id'))
         ->where($where);
     }
 

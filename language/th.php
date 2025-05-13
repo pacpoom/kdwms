@@ -720,4 +720,6 @@ return array(
   'Role Description' => 'รายละเอียดบทบาท',
   'Shipping Report' => 'รายงานการจัดส่ง',
   'Difference Quantity' => 'จำนวนที่แตกต่าง',
+  'Original Location' => 'ตำแหน่งเดิม',
+  'Confirm Date' => 'วันที่ยืนยัน',
 );
