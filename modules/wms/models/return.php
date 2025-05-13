@@ -185,6 +185,8 @@ class Model extends \Kotchasan\Model{
                                         'quantity' => (int)$get_id[0]->quantity,
                                         'from_location' => $get[0]->location_id,
                                         'location_id' => 2283,
+                                        'sale_id' => 0,
+                                        'pallet_id' => 0,
                                         'created_at' => date('Y-m-d'),
                                         'created_by' => $login['id']
                                     );

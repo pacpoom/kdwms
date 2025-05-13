@@ -18,8 +18,25 @@ class model extends \Kotchasan\Model{
         if (!empty($params['material_number'])) {
             $where[] = array('material_number',$params['material_number']);
         }
+
         if (!empty($params['sale_order'])){
             $where[] = array('sale_order',$params['sale_order']);
+        }
+
+        if (!empty($params['from'])){
+                $strNewDate = date('Y-m-d', strtotime($params['from']));
+                $where[] = array(sql::DATE('T1.ship_date'),'>=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d', strtotime('day'));
+                $where[] = array(sql::DATE('T1.ship_date'),'>=',$strNewDate);
+        }
+
+        if (!empty($params['to'])){
+                $strNewDate = date('Y-m-d', strtotime($params['to']));
+                $where[] = array(sql::DATE('T1.ship_date'),'<=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d');
+                $where[] = array(sql::DATE('T1.ship_date'),'<=',$strNewDate);
         }
 
         return static::createQuery()

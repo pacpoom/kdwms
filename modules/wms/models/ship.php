@@ -90,7 +90,7 @@ class Model extends \Kotchasan\Model{
         $where[] = array('T1.pallet_no',$location_code);
 
         return static::createQuery()
-        ->select('T1.id','T2.serial_number','T4.material_number','T1.pallet_no',
+        ->select('T1.id','T1.sale_order','T2.serial_number','T4.material_number','T1.pallet_no',
         'T1.truck_confirm','T2.material_id','T2.reference','T2.location_id')
         ->from('delivery_order T1')
         ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
@@ -185,20 +185,24 @@ class Model extends \Kotchasan\Model{
                                         $table = $model->getTableName('delivery_order');
                                         $db->update($table,$where,$update);
 
-                                        
-                                    $save_tran = array(
+                                        $check_so = \wms\picking\Model::GetSo_detail($check_serial[0]->sale_order);
+                                        $pallet = \wms\picking\Model::GetPallet($location_code);
+
+                                        $save_tran = array(
                                         'id' => NULL,
                                         'transaction_date' => date("Y-m-d H:i:s"),
-                                        'transaction_type' => 'Confirm Picking / '.$location_code,
+                                        'transaction_type' => 'Confirm Picking',
                                         'reference' => $check_serial[0]->reference,
                                         'serial_number' => $scan_qr[4],
                                         'material_id' => $check_serial[0]->material_id,
                                         'quantity' => 0,
                                         'from_location' => 0,
                                         'location_id' => $check_serial[0]->location_id,
+                                        'sale_id' => $check_so[0]->id,
+                                        'pallet_id' => $pallet[0]->id,
                                         'created_at' => date('Y-m-d'),
                                         'created_by' => $login['id']
-                                    );
+                                        );
 
                                     $table = $model->getTableName('transaction');
 

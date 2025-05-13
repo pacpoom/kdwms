@@ -248,6 +248,19 @@ class Model extends \Kotchasan\Model{
 
     }
 
+        public static function check_receive($pallet){
+
+        $where = array();
+        $where[] = array('T1.case_number',$pallet);
+
+        return static::createQuery()
+        ->select('T1.id','T1.case_number')
+        ->from('container_case T1')
+        ->where($where)
+        ->execute();
+
+    }
+
     public function submit(Request $request){
 
         $ret = array();
@@ -336,11 +349,14 @@ class Model extends \Kotchasan\Model{
                             $ret['fault'] = Language::get('Pallet No. Already Confirm !!');
                             $request->removeToken();
                         } else {
+
                             $scan_qr = explode("_",$request->post('serial_number')->toString());
-                        
-                            if (count($scan_qr) != 1) {
+                            
+                            $check_receive = \wms\pickcase\Model::check_receive($scan_qr[0]);
+
+                            if ($check_receive == false) {
                                 $ret['serial_number']='';
-                                $ret['fault'] = Language::get('Please Scan Case Number');
+                                $ret['fault'] = Language::get('Case Number No Data 10124 !!');
                                 $request->removeToken();
                             } else {
     
@@ -511,16 +527,28 @@ class Model extends \Kotchasan\Model{
                                                 $table = $model->getTableName('inventory_stock');
                                                 $db->update($table,$where,$update);
     
+                                                $update = array(
+                                                'status' => 2
+                                                );
+        
+                                                $where = array();
+                                                $where[] = array('id',$check_so[0]->id);
+        
+                                                $table = $model->getTableName('sale_order_status');
+                                                $db->update($table,$where,$update);
+
                                                 $save_tran = array(
                                                     'id' => NULL,
                                                     'transaction_date' => date("Y-m-d H:i:s"),
-                                                    'transaction_type' => 'Shipped By Case / '.$request->post('so')->toString() .' / ' . $pallet[0]->location_code,
+                                                    'transaction_type' => 'Shipped By Case',
                                                     'reference' => $item->reference,
                                                     'serial_number' => $item->serial_number,
                                                     'material_id' => $item->material_id,
                                                     'quantity' => -(int)$item->actual_quantity,
                                                     'from_location' => 0,
                                                     'location_id' => $item->location_id,
+                                                    'sale_id' => $check_so[0]->id,
+                                                    'pallet_id' => $pallet[0]->id,
                                                     'created_at' => date('Y-m-d'),
                                                     'created_by' => $login['id']
                                                 );

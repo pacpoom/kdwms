@@ -15,7 +15,7 @@ class View extends \Gcms\View{
         $params = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'so' => $request->request('so')->toString(),
+            'so' => $request->request('sale_order')->toString(),
             'customer' => $request->request('customer')->toString(),
             'status' => $request->request('status')->toInt(),
         );
@@ -23,7 +23,7 @@ class View extends \Gcms\View{
         $export = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'so' => $request->request('so')->toString(),
+            'so' => $request->request('sale_order')->toString(),
             'customer' => $request->request('customer')->toString(),
             'status' => $request->request('status')->toInt(),
         );
@@ -112,6 +112,9 @@ class View extends \Gcms\View{
                 'ship_qty' => array(
                     'text' => '{LNG_Ship Quantity}'
                 ),
+                'diff_qty' => array(
+                    'text' => '{LNG_Difference Quantity}'
+                ),
             ),
             'buttons' => array (
                 'description' => array(
@@ -130,6 +133,7 @@ class View extends \Gcms\View{
 
     public function onRow($item, $o, $prop)
     {
+        $item['diff_qty'] = $item['planed_quantity'] - $item['ship_qty'];
         return $item;
     }
 }

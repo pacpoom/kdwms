@@ -471,13 +471,15 @@ class Model extends \Kotchasan\Model{
                                             $save_tran = array(
                                                 'id' => NULL,
                                                 'transaction_date' => date("Y-m-d H:i:s"),
-                                                'transaction_type' => 'Shipped / '.$request->post('so')->toString() .' / '.$pallet[0]->location_code,
+                                                'transaction_type' => 'Shipped',
                                                 'reference' => $checkBox[0]->reference,
                                                 'serial_number' => $scan_qr[4],
                                                 'material_id' => $checkBox[0]->material_id,
                                                 'quantity' => -(int)$checkBox[0]->actual_quantity,
                                                 'from_location' => 0,
                                                 'location_id' => $checkBox[0]->location_id,
+                                                'sale_id' => $check_so[0]->id,
+                                                'pallet_id' => $pallet[0]->id,
                                                 'created_at' => date('Y-m-d'),
                                                 'created_by' => $login['id']
                                             );

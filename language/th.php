@@ -718,4 +718,6 @@ return array(
   'Role master' => 'ข้อมูลบทบาท',
   'Role Name' => 'ชื่อบทบาท',
   'Role Description' => 'รายละเอียดบทบาท',
+  'Shipping Report' => 'รายงานการจัดส่ง',
+  'Difference Quantity' => 'จำนวนที่แตกต่าง',
 );

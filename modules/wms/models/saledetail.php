@@ -81,7 +81,7 @@ class model extends \Kotchasan\Model{
 
         return static::createQuery()
         ->select('T1.sale_order','T1.delivery_date','T1.customer_code','T1.customer_name',
-        'T1.material_number',SQL::create('SUM(T1.planed_quantity) AS planed_quantity'),'T1.ship_qty')
+        'T1.material_number',SQL::create('SUM(T1.planed_quantity) AS planed_quantity'),'T1.ship_qty','T1.ship_qty AS diff_qty')
         ->from('sale_order T1')
         ->groupBy('T1.sale_order','T1.delivery_date','T1.customer_code','T1.customer_name',
         'T1.material_number','T1.ship_qty')

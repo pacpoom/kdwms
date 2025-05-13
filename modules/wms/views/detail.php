@@ -11,12 +11,21 @@ class View extends \Gcms\View{
 
     public function render (Request $request,$sale_order,$material_number){
 
+        $params = array();
+        $export = array();
+
         $params = array(
-            'sale_order' => $sale_order,
-            'material_number' => $material_number
+            'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'sale_order' => $request->request('sale_order')->toString(),
+            'material_number' => $request->request('material_number')->toString(),
         );
+
         $export = array(
-            'sale_order' => $sale_order
+           'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'sale_order' => $request->request('sale_order')->toString(),
+            'material_number' => $request->request('material_number')->toString(),
         );
         
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
@@ -39,6 +48,34 @@ class View extends \Gcms\View{
                     'id' => 'export&'.http_build_query($export),
                     'text' => '{LNG_Download}'
                 )
+            ),
+             'filters' => array(
+                array(
+                    'type' => 'date',
+                    'name' => 'from',
+                    'text' => '{LNG_from}',
+                    'value' => $params['from'],
+                    'placeholder' => 'วันเริ่ม'
+                    ),
+                    array(
+                    'type' => 'date',
+                    'name' => 'to',
+                    'text' => '{LNG_to}',
+                    'value' => $params['to'],
+                    'placeholder' => 'วันสิ้นสุด'
+                    ),
+                    array(
+                        'type' => 'text',
+                        'name' => 'so',
+                        'value' => $params['sale_order'],
+                        'placeholder' => '{LNG_Sale Order}'
+                    ),
+                    array(
+                        'type' => 'text',
+                        'name' => 'material_number',
+                        'value' => $params['material_number'],
+                        'placeholder' => '{LNG_Material Number}'
+                    )
             ),
             'headers' => array(
                 'sale_order' => array(

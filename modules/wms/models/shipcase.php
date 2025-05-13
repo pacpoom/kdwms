@@ -172,6 +172,9 @@ class Model extends \Kotchasan\Model{
                                     $request->removeToken(); 
                                 } else {
 
+                                    $check_so = \wms\picking\Model::GetSo_detail($check_serial[0]->sale_order);
+                                    $pallet = \wms\picking\Model::GetPallet($location_code);
+
                                     foreach ($check_serial as $key => $value) {
 
                                         if ($value->serial_number == '') {
@@ -194,13 +197,15 @@ class Model extends \Kotchasan\Model{
                                             $save_tran = array(
                                                 'id' => NULL,
                                                 'transaction_date' => date("Y-m-d H:i:s"),
-                                                'transaction_type' => 'Confirm Picking By Case/ '.$location_code,
+                                                'transaction_type' => 'Confirm Picking By Case',
                                                 'reference' => $value->reference,
                                                 'serial_number' => $scan_qr[0],
                                                 'material_id' => $value->material_id,
                                                 'quantity' => 0,
                                                 'from_location' => 0,
                                                 'location_id' => $value->location_id,
+                                                'sale_id' => $check_so[0]->id,
+                                                'pallet_id' => $pallet[0]->id,
                                                 'created_at' => date('Y-m-d'),
                                                 'created_by' => $login['id']
                                             );

@@ -186,6 +186,8 @@ class Model extends \Kotchasan\Model{
                                     'quantity' => -$request->post('issue_qty')->toInt(),
                                     'from_location' => 0,
                                     'location_id' => $checkBox[0]->location_id,
+                                    'sale_id' => 0,
+                                    'pallet_id' => 0,
                                     'created_at' => date('Y-m-d'),
                                     'created_by' => $login['id']
                                 );

@@ -313,6 +313,8 @@ class Model extends \Kotchasan\Model{
                                                         'material_id' => $row->material_id,
                                                         'quantity' => (int)$row->quantity,
                                                         'from_location' => 0,
+                                                        'sale_id' => 0,
+                                                        'pallet_id' => 0,
                                                         'location_id' => $get_location[0]->id,
                                                         'created_at' => date('Y-m-d'),
                                                         'created_by' => $login['id']

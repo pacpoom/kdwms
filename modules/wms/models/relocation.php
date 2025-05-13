@@ -250,6 +250,8 @@ class Model extends \Kotchasan\Model{
                                                         'quantity' => $check_box->actual_quantity,
                                                         'from_location' => $check_box->location_id,
                                                         'location_id' => $save['location_id'],
+                                                        'sale_id' => 0,
+                                                        'pallet_id' => 0,
                                                         'created_at' => date('Y-m-d'),
                                                         'created_by' => $login['id']
                                                     );
