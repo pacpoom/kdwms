@@ -83,7 +83,6 @@ class View extends \Gcms\View{
         $item['zone'] = $this->category->get('zone', $item['zone']);
         $item['area'] = $this->category->get('area', $item['area']);
         $item['bin'] = $this->category->get('bin', $item['bin']);
-        $item['location_code'] = $item['zone'] .'-'.$item['area'] .'-'.$item['bin'];
         $item['location_type'] = $this->category->get('location_type',$item['location_type']);
         $item['warehouse'] = $this->category->get('warehouse',$item['warehouse']);
         return $item;

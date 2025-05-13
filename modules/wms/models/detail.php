@@ -23,29 +23,40 @@ class model extends \Kotchasan\Model{
             $where[] = array('sale_order',$params['sale_order']);
         }
 
+        if (!empty($params['create_from'])){
+                $strNewDate = date('Y-m-d', strtotime($params['create_from']));
+                $where[] = array(sql::DATE('T1.created_at'),'>=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d', strtotime('-30 day'));
+                $where[] = array(sql::DATE('T1.created_at'),'>=',$strNewDate);
+        }
+
+        if (!empty($params['create_to'])){
+                $strNewDate = date('Y-m-d', strtotime($params['create_to']));
+                $where[] = array(sql::DATE('T1.created_at'),'<=',$strNewDate);
+        } else {
+                $strNewDate = date('Y-m-d');
+                $where[] = array(sql::DATE('T1.created_at'),'<=',$strNewDate);
+        }
+
         if (!empty($params['from'])){
                 $strNewDate = date('Y-m-d', strtotime($params['from']));
-                $where[] = array(sql::DATE('T1.ship_date'),'>=',$strNewDate);
-        } else {
-                $strNewDate = date('Y-m-d', strtotime('day'));
                 $where[] = array(sql::DATE('T1.ship_date'),'>=',$strNewDate);
         }
 
         if (!empty($params['to'])){
                 $strNewDate = date('Y-m-d', strtotime($params['to']));
                 $where[] = array(sql::DATE('T1.ship_date'),'<=',$strNewDate);
-        } else {
-                $strNewDate = date('Y-m-d');
-                $where[] = array(sql::DATE('T1.ship_date'),'<=',$strNewDate);
         }
 
+       // var_dump($where);
         return static::createQuery()
         ->select('T1.id','T1.sale_order','T1.material_number','T3.serial_number','T1.quantity'
         ,'T4.location_code','T2.serial_number pick','T1.ship_date','T1.pallet_no','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
         ->from('delivery_order T1')
         ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
         ->join('inventory_stock T3','LEFT',array('T1.inventory_id','T3.id'))
-        ->join('location T4','LEFT',array('T3.location_id','T4.id'))
+        ->join('location T4','LEFT',array('T2.location_id','T4.id'))
         ->where($where);
     }
 

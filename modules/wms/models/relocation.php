@@ -123,7 +123,7 @@ class Model extends \Kotchasan\Model{
         return static::createQuery()
         ->select('T1.id','T1.reference','T2.container','T1.serial_number','T1.actual_quantity','T1.location_id','T1.material_id')
         ->from('inventory_stock T1')
-        ->join('packing_list T2','LEFT',array('T1.serial_number','T2.box_id'))
+        ->join('packing_list T2','LEFT',array('T1.reference','T2.id'))
         ->where(array('T1.serial_number',$id))
         ->first();
     }

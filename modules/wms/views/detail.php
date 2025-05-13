@@ -19,13 +19,17 @@ class View extends \Gcms\View{
             'to' => $request->request('to')->date(),
             'sale_order' => $request->request('sale_order')->toString(),
             'material_number' => $request->request('material_number')->toString(),
+            'create_from' => $request->request('create_from')->date(),
+            'create_to' => $request->request('create_to')->date(),
         );
 
         $export = array(
-           'from' => $request->request('from')->date(),
+            'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
             'sale_order' => $request->request('sale_order')->toString(),
             'material_number' => $request->request('material_number')->toString(),
+            'create_from' => $request->request('create_from')->date(),
+            'create_to' => $request->request('create_to')->date(),
         );
         
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
@@ -53,7 +57,7 @@ class View extends \Gcms\View{
                 array(
                     'type' => 'date',
                     'name' => 'from',
-                    'text' => '{LNG_from}',
+                    'text' => '{LNG_Ship Date}',
                     'value' => $params['from'],
                     'placeholder' => 'วันเริ่ม'
                     ),
@@ -75,7 +79,21 @@ class View extends \Gcms\View{
                         'name' => 'material_number',
                         'value' => $params['material_number'],
                         'placeholder' => '{LNG_Material Number}'
-                    )
+                    ),
+                    array(
+                    'type' => 'date',
+                    'name' => 'create_from',
+                    'text' => '{LNG_Create Date}',
+                    'value' => $params['create_from'],
+                    'placeholder' => 'วันเริ่ม'
+                    ),
+                    array(
+                    'type' => 'date',
+                    'name' => 'create_to',
+                    'text' => '{LNG_to}',
+                    'value' => $params['create_to'],
+                    'placeholder' => 'วันสิ้นสุด'
+                    ),
             ),
             'headers' => array(
                 'sale_order' => array(

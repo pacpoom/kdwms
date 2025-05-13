@@ -34,7 +34,7 @@ class model extends \Kotchasan\Model{
         return static::createQuery()
         ->select('T1.id','T1.transaction_date','T1.transaction_type','T6.container','T6.case_number'
         ,'T1.serial_number','T2.material_number','T2.material_name_en','T1.quantity','T4.unit','T7.location_code from_location'
-        ,'T3.location_code','T8.sale_order','T9.location_code','T9.truck_id','T9.truck_date','T5.username')
+        ,'T3.location_code','T8.sale_order','T9.location_code pallet','T9.truck_id','T9.truck_date','T5.username')
         ->from('transaction T1')
         ->join('material T2','LEFT',array('T1.material_id','T2.id'))
         ->join('location T3','LEFT',array('T1.location_id','T3.id'))
