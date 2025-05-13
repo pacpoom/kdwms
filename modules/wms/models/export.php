@@ -301,13 +301,17 @@ class model extends \Kotchasan\Model{
 
         return static::createQuery()
         ->select('T1.id','T1.transaction_date','T1.transaction_type','T6.container','T6.case_number'
-        ,'T1.serial_number','T2.material_number','T2.material_name_en','T1.quantity','T4.unit','T3.location_code','T5.username')
+        ,'T1.serial_number','T2.material_number','T2.material_name_en','T1.quantity','T4.unit','T7.location_code from_location'
+        ,'T3.location_code','T8.sale_order','T9.location_code pallet','T9.truck_id','T9.truck_date','T5.username')
         ->from('transaction T1')
         ->join('material T2','LEFT',array('T1.material_id','T2.id'))
         ->join('location T3','LEFT',array('T1.location_id','T3.id'))
         ->join('unit T4','LEFT',array('T2.unit','T4.id'))
         ->join('user T5','LEFT',array('T1.created_by','T5.id'))
         ->join('packing_list T6','LEFT',array('T1.reference','T6.id'))
+        ->join('location T7','LEFT',array('T1.from_location','T7.id'))
+        ->join('sale_order_status T8','LEFT',array('T1.sale_id','T8.id'))
+        ->join('pallet_log T9','LEFT',array('T1.pallet_id','T9.id'))
         ->where($where)
         ->order('T1.transaction_date')
         ->toArray()

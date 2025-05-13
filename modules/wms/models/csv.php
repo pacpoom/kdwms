@@ -185,6 +185,12 @@ class Model extends \Kotchasan\KBase
         $header['quantity'] = Language::trans('{LNG_Quantity}');
         $header['unit'] = Language::trans('{LNG_Unit}');
         $header['location_code'] = Language::trans('{LNG_Location}');
+
+        $header['sale_order'] = Language::trans('{LNG_Sale Order}');
+        $header['pallet'] = Language::trans('{LNG_Pallet No}');
+        $header['truck_id'] = Language::trans('{LNG_Truck ID}');
+        $header['truck_date'] = Language::trans('{LNG_Truck Date}');
+
         $header['username'] = Language::trans('{LNG_Username}');
 
         return $header;

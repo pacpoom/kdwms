@@ -92,6 +92,18 @@ class View extends \Gcms\View{
                 'location_code' => array(
                     'text' => '{LNG_Location}'
                 ),
+                'sale_order' => array(
+                    'text' => '{LNG_Sale Order}'
+                ),
+                'pallet' => array(
+                    'text' => '{LNG_Pallet No}'
+                ),
+                'truck_id' => array(
+                    'text' => '{LNG_Truck ID}'
+                ),
+                'truck_date' => array(
+                    'text' => '{LNG_Truck Date}'
+                ),
                 'username' => array(
                     'text' => '{LNG_Username}'
                 )

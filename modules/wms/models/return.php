@@ -77,8 +77,9 @@ class Model extends \Kotchasan\Model{
         $where[] = array('T1.actual_id',$box_id);
 
         return static::createQuery()
-        ->select('T1.id','T1.sale_order','T1.material_number','T1.actual_id','T1.inventory_id','T1.quantity')
+        ->select('T1.id','T1.sale_order_id','T1.sale_order','T1.material_number','T1.actual_id','T1.inventory_id','T1.quantity','T1.truck_id','T1.pallet_no','T2.truck_flg')
         ->from('delivery_order T1')
+        ->join('pallet_log T2','LEFT',array('T1.pallet_no','T2.location_code'))
         ->where($where)
         ->order('T1.id')
         ->execute();
@@ -132,6 +133,10 @@ class Model extends \Kotchasan\Model{
                                 $ret['serial_number']='';
                                 $ret['fault'] = Language::get('This Box Don,t Picking !!');
                                 $request->removeToken();
+                            } elseif ($get_id[0]->truck_flg == 1) {
+                                $ret['serial_number']='';
+                                $ret['fault'] = Language::get('This Box already truck !!');
+                                $request->removeToken();
                             } else {
 
                                 $get_sum = \wms\return\Model::GetSoSum($get_id[0]->sale_order,$get_id[0]->material_number);
@@ -175,18 +180,21 @@ class Model extends \Kotchasan\Model{
                                     $table = $model->getTableName('inventory_stock');
                                     $db->update($table,$where,$update);
 
+                                    $check_so = \wms\picking\Model::GetSo_detail($get_id[0]->sale_order);
+                                    $pallet = \wms\picking\Model::GetPallet($get_id[0]->pallet_no);
+
                                     $save_tran = array(
                                         'id' => NULL,
                                         'transaction_date' => date("Y-m-d H:i:s"),
-                                        'transaction_type' => 'Return / '.$get_id[0]->sale_order,
+                                        'transaction_type' => 'Return',
                                         'reference' => $get[0]->id,
                                         'serial_number' => $scan_qr[4],
                                         'material_id' => $get[0]->material_id,
                                         'quantity' => (int)$get_id[0]->quantity,
                                         'from_location' => $get[0]->location_id,
                                         'location_id' => 2283,
-                                        'sale_id' => 0,
-                                        'pallet_id' => 0,
+                                        'sale_id' => $check_so[0]->id,
+                                        'pallet_id' => $pallet[0]->id,
                                         'created_at' => date('Y-m-d'),
                                         'created_by' => $login['id']
                                     );

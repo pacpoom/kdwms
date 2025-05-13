@@ -303,6 +303,7 @@ class Controller extends \Kotchasan\Controller
         );
 
         $header = \wms\csv\Model::transaction();
+
         $datas = array();
         $data = \wms\export\Model::getTransaction($params);
         $rs = array();
@@ -322,6 +323,10 @@ class Controller extends \Kotchasan\Controller
             $rs['quantity'] = $item['quantity'];
             $rs['unit'] = $item['unit'];
             $rs['location_code'] = $item['location_code'];
+            $rs['sale_order'] = $item['sale_order'];
+            $rs['pallet'] = $item['pallet'];
+            $rs['truck_id'] = $item['truck_id'];
+            $rs['truck_date'] = $item['truck_date'];
             $rs['username'] = $item['username'];
 
             $datas[] = $rs;
