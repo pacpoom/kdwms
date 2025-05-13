@@ -111,10 +111,6 @@ class Controller extends \Kotchasan\Controller
             $rs['total_case'] = $item['total_case'];
             $rs['total_box'] = $item['total_box'];
             $rs['total_quantity'] = $item['total_quantity'];
-            $rs['receive_material'] = $item['receive_material'];
-            $rs['receive_case'] = $item['receive_case'];
-            $rs['receive_box'] = $item['receive_box'];
-            $rs['receive_quantity'] = $item['receive_quantity'];
 
             $datas[] = $rs;
         }

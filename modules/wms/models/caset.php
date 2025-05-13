@@ -342,19 +342,19 @@ class Model extends \Kotchasan\Model{
                                                 $db->update($this->getTableName('packing_list'),$where,$update);
             
                                                                                               
-                                                $get_material = \wms\caset\Model::sumMaterial($get_job[0]->container);
-                                                $get_case = \wms\caset\Model::SumCase($get_job[0]->container);
-                                                $get_box = \wms\caset\Model::SumBox($get_job[0]->container);
-                                                $get_Qty = \wms\caset\Model::SumQty($get_job[0]->container);                            
+                                                // $get_material = \wms\caset\Model::sumMaterial($get_job[0]->container);
+                                                // $get_case = \wms\caset\Model::SumCase($get_job[0]->container);
+                                                // $get_box = \wms\caset\Model::SumBox($get_job[0]->container);
+                                                // $get_Qty = \wms\caset\Model::SumQty($get_job[0]->container);                            
             
-                                                $update_status = array(
-                                                    'receive_material' => isset($get_material[0]->qty) ? $get_material[0]->qty : 0,
-                                                    'receive_case' => isset($get_case) ? COUNT($get_case) : 0,
-                                                    'receive_box' => isset($get_box[0]->qty) ? $get_box[0]->qty : 0,
-                                                    'receive_quantity' => isset($get_Qty[0]->qty) ? $get_Qty[0]->qty : 0,
-                                                );
+                                                // $update_status = array(
+                                                //     'receive_material' => isset($get_material[0]->qty) ? $get_material[0]->qty : 0,
+                                                //     'receive_case' => isset($get_case) ? COUNT($get_case) : 0,
+                                                //     'receive_box' => isset($get_box[0]->qty) ? $get_box[0]->qty : 0,
+                                                //     'receive_quantity' => isset($get_Qty[0]->qty) ? $get_Qty[0]->qty : 0,
+                                                // );
             
-                                                $db->update($this->getTableName('container'),array('id',$get_job[0]->id),$update_status);
+                                                // $db->update($this->getTableName('container'),array('id',$get_job[0]->id),$update_status);
             
                                                 $total_box = \wms\caset\Model::Total_case($request->post('container')->toString());
             

@@ -194,22 +194,7 @@ class View extends \Gcms\View{
                 ),
                 'total_quantity' => array(
                     'text' => '{LNG_Total Quantity}'
-                ),
-                'receive_material' => array(
-                    'text' => '{LNG_Receive Material}'
-                ),
-                'receive_case' => array(
-                    'text' => '{LNG_Receive Case}'
-                ),
-                'receive_box' => array(
-                    'text' => '{LNG_Receive Box}'
-                ),
-                'receive_quantity' => array(
-                    'text' => '{LNG_Receive Quantity}'
-                ),
-                'total_material' => array(
-                    'text' => '{LNG_Total Material}'
-                ),
+                )
             ),
             'buttons' => array(
                 'statusd' => array(

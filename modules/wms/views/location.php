@@ -42,7 +42,7 @@ class View extends \Gcms\View{
             ),
             'headers' => array(
                 'location_code' => array(
-                    'text' => '{LNG_Location Type}'
+                    'text' => '{LNG_Location Code}',
                 ),
                 'location_type' => array(
                     'text' => '{LNG_Location Type}'

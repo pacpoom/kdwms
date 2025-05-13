@@ -114,10 +114,6 @@ class Model extends \Kotchasan\KBase
         $header['total_case'] = Language::trans('{LNG_Total Case}');
         $header['total_box'] = Language::trans('{LNG_Total Box}');
         $header['total_quantity'] = Language::trans('{LNG_Total Quantity}');
-        $header['receive_material'] = Language::trans('{LNG_Receive Material}');
-        $header['receive_case'] = Language::trans('{LNG_Receive Case}');
-        $header['receive_box'] = Language::trans('{LNG_Receive Box}');
-        $header['receive_quantity'] = Language::trans('{LNG_Receive Quantity}');
 
         return $header;
     }

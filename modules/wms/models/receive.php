@@ -317,17 +317,17 @@ class Model extends \Kotchasan\Model{
                                         $table = $model->getTableName('transaction');
                                         $db->insert($table,$save_tran);
                                         
-                                        $get_material = \wms\receive\Model::sumMaterial($get_job[0]->container);
-                                        $get_case = \wms\receive\Model::SumCase($get_job[0]->container);
-                                        $get_box = \wms\receive\Model::SumBox($get_job[0]->container);
-                                        $get_Qty = \wms\receive\Model::SumQty($get_job[0]->container);
-                                        $update_status = array(
-                                            'receive_material' => isset($get_material[0]->qty) ? $get_material[0]->qty : 0,
-                                            'receive_case' => isset($get_case[0]->qty) ? $get_case[0]->qty : 0,
-                                            'receive_box' => isset($get_box[0]->qty) ? $get_box[0]->qty : 0,
-                                            'receive_quantity' => isset($get_Qty[0]->qty) ? $get_Qty[0]->qty : 0,
-                                        );
-                                        $db->update($this->getTableName('container'),array('id',$get_job[0]->id),$update_status);
+                                        // $get_material = \wms\receive\Model::sumMaterial($get_job[0]->container);
+                                        // $get_case = \wms\receive\Model::SumCase($get_job[0]->container);
+                                        // $get_box = \wms\receive\Model::SumBox($get_job[0]->container);
+                                        // $get_Qty = \wms\receive\Model::SumQty($get_job[0]->container);
+                                        // $update_status = array(
+                                        //     'receive_material' => isset($get_material[0]->qty) ? $get_material[0]->qty : 0,
+                                        //     'receive_case' => isset($get_case[0]->qty) ? $get_case[0]->qty : 0,
+                                        //     'receive_box' => isset($get_box[0]->qty) ? $get_box[0]->qty : 0,
+                                        //     'receive_quantity' => isset($get_Qty[0]->qty) ? $get_Qty[0]->qty : 0,
+                                        // );
+                                        // $db->update($this->getTableName('container'),array('id',$get_job[0]->id),$update_status);
                                         $update = array(
                                             'cy_flg' => 0
                                         );
