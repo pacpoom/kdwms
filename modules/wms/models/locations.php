@@ -52,9 +52,15 @@ class Model extends \Kotchasan\Model{
         if ($request->initSession() && $request->isSafe() && $login = Login::isMember()) {
             try {
                 
-                $location_code = $request->post('zone_text')->topic() ."-". $request->post('area_text')->topic() ."-". $request->post('bin_text')->topic();
+                $location_code = $request->post('location_code')->topic();
 
-                $save = array(
+                if ($location_code == '') {
+                    $ret['ret_location_code'] = 'Please fill in';
+                } elseif (self::get($request->post('zone_text')->topic(), $request->post('area_text')->topic(), $request->post('bin_text')->topic())) {
+                    throw new \Kotchasan\InputItemException('This location already exists');
+                } else {
+
+                    $save = array(
                     'id' => NULL,
                     'location_code' => $location_code,
                     'zone' => \index\Category\Model::save('zone',$request->post('zone_text')->topic()),
@@ -76,6 +82,7 @@ class Model extends \Kotchasan\Model{
                 $ret['location'] = 'reload';
                 $request->removeToken();
 
+                }
 
             } catch (\Kotchasan\InputItemException $e){
                 $ret['alert'] = $e->getMessage();

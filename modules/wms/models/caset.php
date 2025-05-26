@@ -29,10 +29,16 @@ class Model extends \Kotchasan\Model{
     }
 
     public static function getList(){
+        // เงื่อนไขการค้นหา
+        $where = array();
+        $where[] = array('gr_flg',1);
+        $where[] = array('receive_flg',0);
+        $where[] = array('storage_location',1097);
+
         return static::createQuery()
         ->select('container')
-        ->from('container')
-        ->where(array('status',1))
+        ->from('packing_list')
+        ->where($where)
         ->order('container')
         ->groupBy('container')
         ->execute();
@@ -55,11 +61,18 @@ class Model extends \Kotchasan\Model{
         ->execute();
     }
 
-    public static function Total_Receive($id){
+    public static function Total_Receive($id,$location_id){
+
+        $where = array();
+        $where[] = array('T1.container',$id);
+        $where[] = array('T1.receive_flg',1);
+        $where[] = array('T2.location_id',$location_id);
+
         return static::createQuery()
-        ->select('id','receive_case')
-        ->from('container')
-        ->where(array('container',$id))
+        ->select(sql::COUNT('T1.box_id','receive_case'))
+        ->from('packing_list T1')
+        ->join('inventory_stock T2','LEFT',array('T1.id','T2.reference'))
+        ->where($where)
         ->execute();
     }
 
@@ -176,7 +189,7 @@ class Model extends \Kotchasan\Model{
 
                             $total_box = \wms\caset\Model::Total_case($get_job[0]->container);
                       
-                            $total_receive = \wms\caset\Model::Total_Receive($get_job[0]->container);
+                            $total_receive = 0;
                             
                             if ($get_job == false) {
                                 $ret['serial_number']='';
@@ -186,7 +199,7 @@ class Model extends \Kotchasan\Model{
                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-caset', 
                                 'container' => $get_job[0]->container,
                                 'total_box' => isset($total_box[0]->total_case)? $total_box[0]->total_case : 0,
-                                'total_receive' => isset($total_receive[0]->receive_case) ? $total_receive[0]->receive_case : 0,
+                                'total_receive' => 0,
                                 'status' => 1,'time' => date('H-i-s'))); 
     
                                 $ret['message'] = Language::get('Saved successfully');
@@ -214,7 +227,7 @@ class Model extends \Kotchasan\Model{
 
                                 $total_box = \wms\caset\Model::Total_case($get_job[0]->container);
                           
-                                $total_receive = \wms\caset\Model::Total_Receive($get_job[0]->container);
+                                $total_receive = \wms\caset\Model::Total_Receive($get_job[0]->container,$get_location[0]->id);
 
                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-caset', 
                                 'container' => $get_job[0]->container,
@@ -342,25 +355,10 @@ class Model extends \Kotchasan\Model{
                                                 $where[] = array('case_number',$scan_qr[0]);
             
                                                 $db->update($this->getTableName('packing_list'),$where,$update);
-            
-                                                                                              
-                                                // $get_material = \wms\caset\Model::sumMaterial($get_job[0]->container);
-                                                // $get_case = \wms\caset\Model::SumCase($get_job[0]->container);
-                                                // $get_box = \wms\caset\Model::SumBox($get_job[0]->container);
-                                                // $get_Qty = \wms\caset\Model::SumQty($get_job[0]->container);                            
-            
-                                                // $update_status = array(
-                                                //     'receive_material' => isset($get_material[0]->qty) ? $get_material[0]->qty : 0,
-                                                //     'receive_case' => isset($get_case) ? COUNT($get_case) : 0,
-                                                //     'receive_box' => isset($get_box[0]->qty) ? $get_box[0]->qty : 0,
-                                                //     'receive_quantity' => isset($get_Qty[0]->qty) ? $get_Qty[0]->qty : 0,
-                                                // );
-            
-                                                // $db->update($this->getTableName('container'),array('id',$get_job[0]->id),$update_status);
-            
+                       
                                                 $total_box = \wms\caset\Model::Total_case($request->post('container')->toString());
             
-                                                $total_receive = \wms\caset\Model::Total_Receive($request->post('container')->toString());
+                                                $total_receive = \wms\caset\Model::Total_Receive($request->post('container')->toString(),$get_location[0]->id);
                                                 
                                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-caset', 
                                                 'container' => $get_job[0]->container,

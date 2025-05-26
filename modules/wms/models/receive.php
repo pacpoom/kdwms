@@ -31,12 +31,13 @@ class Model extends \Kotchasan\Model{
     public static function getList(){
 
         $where = array();
-        $where[] = array('status',1);
-        $where[] = array('container_type','KD');
+        $where[] = array('gr_flg',1);
+        $where[] = array('receive_flg',0);
+        $where[] = array('storage_location',1097);
 
         return static::createQuery()
         ->select('container')
-        ->from('container')
+        ->from('packing_list')
         ->where($where)
         ->order('container')
         ->groupBy('container')
@@ -60,11 +61,18 @@ class Model extends \Kotchasan\Model{
         ->execute();
     }
 
-    public static function Total_Receive($id){
+    public static function Total_Receive($id,$location_id){
+
+        $where = array();
+        $where[] = array('T1.container',$id);
+        $where[] = array('T1.receive_flg',1);
+        $where[] = array('T2.location_id',$location_id);
+
         return static::createQuery()
-        ->select('id','receive_box')
-        ->from('container')
-        ->where(array('container',$id))
+        ->select(sql::COUNT('T1.box_id','receive_box'))
+        ->from('packing_list T1')
+        ->join('inventory_stock T2','LEFT',array('T1.id','T2.reference'))
+        ->where($where)
         ->execute();
     }
 
@@ -191,7 +199,7 @@ class Model extends \Kotchasan\Model{
 
                             $total_box = \wms\receive\Model::Total_Box($get_job[0]->container);
                       
-                            $total_receive = \wms\receive\Model::Total_Receive($get_job[0]->container);
+                            $total_receive = 0;
                             
 
                             if ($get_job == false) {
@@ -202,7 +210,7 @@ class Model extends \Kotchasan\Model{
                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-receive', 
                                 'container' => $get_job[0]->container,
                                 'total_box' => isset($total_box[0]->total_box)? $total_box[0]->total_box : 0,
-                                'total_receive' => isset($total_receive[0]->receive_box) ? $total_receive[0]->receive_box : 0,
+                                'total_receive' => 0,
                                 'status' => 1,'time' => date('H-i-s'))); 
     
                                 $ret['message'] = Language::get('Saved successfully');
@@ -228,7 +236,7 @@ class Model extends \Kotchasan\Model{
 
                                 $total_box = \wms\receive\Model::Total_Box($get_job[0]->container);
                           
-                                $total_receive = \wms\receive\Model::Total_Receive($get_job[0]->container);
+                                $total_receive = \wms\receive\Model::Total_Receive($get_job[0]->container,$get_location[0]->id);
 
                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-receive',
                                 'location_id' => $get_location[0]->id, 
@@ -319,24 +327,13 @@ class Model extends \Kotchasan\Model{
                                         $table = $model->getTableName('transaction');
                                         $db->insert($table,$save_tran);
                                         
-                                        // $get_material = \wms\receive\Model::sumMaterial($get_job[0]->container);
-                                        // $get_case = \wms\receive\Model::SumCase($get_job[0]->container);
-                                        // $get_box = \wms\receive\Model::SumBox($get_job[0]->container);
-                                        // $get_Qty = \wms\receive\Model::SumQty($get_job[0]->container);
-                                        // $update_status = array(
-                                        //     'receive_material' => isset($get_material[0]->qty) ? $get_material[0]->qty : 0,
-                                        //     'receive_case' => isset($get_case[0]->qty) ? $get_case[0]->qty : 0,
-                                        //     'receive_box' => isset($get_box[0]->qty) ? $get_box[0]->qty : 0,
-                                        //     'receive_quantity' => isset($get_Qty[0]->qty) ? $get_Qty[0]->qty : 0,
-                                        // );
-                                        // $db->update($this->getTableName('container'),array('id',$get_job[0]->id),$update_status);
                                         $update = array(
                                             'cy_flg' => 0
                                         );
                                         $where[] = array('id',$checkBox[0]->id);
                                         $db->update($this->getTableName('packing_list'),$where,$update);
                                         $total_box = \wms\receive\Model::Total_Box($request->post('container')->toString());
-                                        $total_receive = \wms\receive\Model::Total_Receive($request->post('container')->toString());
+                                        $total_receive = \wms\receive\Model::Total_Receive($request->post('container')->toString(),$get_location[0]->id);
                                         
                                         $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-receive',
                                         'location_id' => $get_location[0]->id, 

@@ -125,11 +125,12 @@ class Model extends \Kotchasan\Model{
 
     }
 
-    public static function get_actual($id){
+    public static function get_actual($id,$pallet){
 
         $where = array();
         $where[] = array('sale_order',$id);
         $where[] = array('actual_id','!=',0);
+        $where[] = array('pallet_no',$pallet);
 
         return static::createQuery()
         ->select(sql::COUNT('id','total'))
@@ -281,13 +282,13 @@ class Model extends \Kotchasan\Model{
                         } else {
 
                             $get_total = \wms\pickcase\Model::get_total($request->request('so')->toString());
-                            $get_actual = \wms\pickcase\Model::get_actual($request->request('so')->toString());
+                            $get_actual = 0;
 
                             $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-pickcase',
                             'so' => $request->request('so')->toString(),
                             'status' => 1,
                             'total_quantity' => $get_total[0]->total,
-                            'actual_quantity' => $get_actual[0]->total,
+                            'actual_quantity' => $get_actual,
                             'pallet' => '','pallets' => 1 )); 
                             $request->removeToken();
 
@@ -316,7 +317,7 @@ class Model extends \Kotchasan\Model{
                             } else {
 
                                 $get_total = \wms\pickcase\Model::get_total($request->request('so')->toString());
-                                $get_actual = \wms\pickcase\Model::get_actual($request->request('so')->toString());
+                                $get_actual = \wms\pickcase\Model::get_actual($request->request('so')->toString(),$request->request('pallet')->toString());
 
                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-pickcase',
                                 'so' => $request->request('so')->toString(),
@@ -559,7 +560,7 @@ class Model extends \Kotchasan\Model{
                                             }
     
                                             $get_total = \wms\pickcase\Model::get_total($request->request('so')->toString());
-                                            $get_actual = \wms\pickcase\Model::get_actual($request->request('so')->toString());
+                                            $get_actual = \wms\pickcase\Model::get_actual($request->request('so')->toString(),$pallet[0]->location_code);
         
                                             $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-pickcase',
                                             'so' => $request->request('so')->toString(),

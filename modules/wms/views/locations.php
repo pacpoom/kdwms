@@ -58,7 +58,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-shipping',
             'itemClass' => 'item',
             'label' => '{LNG_Location}',
-            'readonly' => true,
+            'readonly' => false,
             'value' => isset($index->location_code) ? $index->location_code : ''
         ));
 
@@ -174,7 +174,7 @@ class View extends \Gcms\View
         
         $modules = \Gcms\Modules::create();
         $dir = $modules->getDir();
-        $form->script(file_get_contents($dir.'wms/wms.js'));
+        //$form->script(file_get_contents($dir.'wms/wms.js'));
         // คืนค่า HTML
         return $form->render();
     }
