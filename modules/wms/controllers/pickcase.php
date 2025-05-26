@@ -41,7 +41,7 @@ class Controller extends \Gcms\Controller{
 
         $section->appendChild(\wms\pickcase\View::create()->render($so,$status,$total_quantity,$actual_quantity,$pallet,$pallets));
  
-        $section->appendChild(\wms\pickcase\View::create()->show_data($request,$so));
+        //$section->appendChild(\wms\pickcase\View::create()->show_data($request,$so));
 
         return $section->render();
 

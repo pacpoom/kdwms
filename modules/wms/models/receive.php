@@ -228,7 +228,7 @@ class Model extends \Kotchasan\Model{
                             $get_location = \wms\receive\Model::getLocation($request->post('location_code')->toString());
                             
                             if ($get_location == false) {
-                                $ret['serial_number']='';
+                                $ret['location_code']='';
                                 $ret['fault'] = Language::get('Location Incorrect !!');
                             } else {
 

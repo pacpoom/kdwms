@@ -3783,12 +3783,20 @@ aside.tip {
   color: #194480;
 }
 .msgbox {
-  z-index: 2147483646;
+  /* z-index: 2147483646;
   max-width: 80%;
   min-width: 200px;
   position: fixed;
   right: 10px;
-  top: 10px;
+  top: 10px; */
+
+  width: 1000px;      /* Set your desired width */
+  max-width: 90vw;   /* Responsive max width */
+  font-size: 1.6em;  /* Adjust text size */
+  padding: 20px;
+  position: fixed;
+  right: 15px;
+  top: 120px; 
 }
 .pdpa_consent {
   z-index: 2147483646;
