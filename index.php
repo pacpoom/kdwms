@@ -10,7 +10,6 @@
  */
 if (!is_file('settings/config.php')) {
     // ติดตั้งครั้งแรก
-    header('Location: install/index.php');
 } else {
     // load Kotchasan
     include 'load.php';

@@ -1,0 +1,5 @@
+<?php exit() ?>
+[2024-02-05 10:26:12] ERROR: <br>Exception : <em>Class "Index\Menu\Model" not found</em> in <b>C:\xampp\htdocs\sail\Kotchasan\Router.php</b> on line <b>72</b> 
+[2024-02-05 11:12:08] ERROR: <br>Exception : <em>Class "index\location\View" not found</em> in <b>C:\xampp\htdocs\sail\Kotchasan\Router.php</b> on line <b>72</b> 
+[2024-02-05 13:52:39] ERROR: <br>Exception : <em>call_user_func(): Argument #1 ($callback) must be a valid callback, class wms\location\View does not have a method "onRow"</em> in <b>C:\xampp\htdocs\sail\Kotchasan\DataTable.php</b> on line <b>798</b> 
+[2024-02-05 13:52:47] ERROR: <br>Exception : <em>call_user_func(): Argument #1 ($callback) must be a valid callback, class wms\location\View does not have a method "onRow"</em> in <b>C:\xampp\htdocs\sail\Kotchasan\DataTable.php</b> on line <b>798</b> 
