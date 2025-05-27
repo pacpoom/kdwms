@@ -42,18 +42,18 @@ class model extends \Kotchasan\Model{
 
             if (!empty($params['from'])){
                 $strNewDate = date('Y-m-d', strtotime($params['from']));
-                $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
+                $where[] = array(sql::DATE('T1.created_at'),'>=',$strNewDate);
             } else {
                 $strNewDate = date('Y-m-d', strtotime('-7 day'));
-                $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
+                $where[] = array(sql::DATE('T1.created_at'),'>=',$strNewDate);
             }
 
             if (!empty($params['to'])){
                 $strNewDate = date('Y-m-d', strtotime($params['to']));
-                $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
+                $where[] = array(sql::DATE('T1.created_at'),'<=',$strNewDate);
             } else {
                 $strNewDate = date('Y-m-d');
-                $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
+                $where[] = array(sql::DATE('T1.created_at'),'<=',$strNewDate);
             }
         
         return static::createQuery()
