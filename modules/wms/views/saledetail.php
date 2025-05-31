@@ -134,8 +134,10 @@ class View extends \Gcms\View{
     public function onRow($item, $o, $prop)
     {
 
+        $item['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
         $item['planed_quantity'] = number_format((float)$item['planed_quantity'], 1, '.', '');
         $item['diff_qty'] = $item['planed_quantity'] - $item['ship_qty'];
+
         return $item;
     }
 }
