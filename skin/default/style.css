@@ -8,6 +8,7 @@ body {
   background-position: top center;
   background-size: cover;
 }
+
 body,
 html {
   min-height: 100%;
@@ -344,6 +345,7 @@ section>header {
   width: 2.5em;
   text-align: center !important;
 }
+
 .tablebody tbody th,
 .tablebody tbody td,
 .tablebody .thead th,

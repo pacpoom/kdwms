@@ -185,7 +185,6 @@ class Model extends \Kotchasan\Model{
                         'status' => 0,'time' => date('H-i-s')));
 
                         $ret['message'] = Language::get('Saved successfully');
-                        $ret['serial_number']='';
                         $request->removeToken();
 
                     }

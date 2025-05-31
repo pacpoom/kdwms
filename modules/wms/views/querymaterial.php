@@ -57,7 +57,7 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-category',
             'itemClass' => 'item',
             'label' => '{LNG_Material Number}',
-            'value' => ''
+            'value' => isset($material) ? $material : '',
         ));
 
         $groups = $fieldset->add('groups');

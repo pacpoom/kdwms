@@ -84,18 +84,6 @@ class View extends \Gcms\View
         $groups = $fieldset->add('groups');
 
         $groups->add('text', array(
-            'id' => 'serial_number',
-            'labelClass' => 'g-input icon-customer',
-            'itemClass' => 'width50',
-            'label' => '{LNG_Case Number}',
-            'value' => '',
-            'autofocus' => true,
-            'readonly' => $ship
-        ));
-
-        $groups = $fieldset->add('groups');
-
-        $groups->add('text', array(
             'id' => 'so',
             'labelClass' => 'g-input icon-world',
             'itemClass' => 'width50',
@@ -114,6 +102,17 @@ class View extends \Gcms\View
             'readonly' => $pallets
         ));
 
+        $groups = $fieldset->add('groups');
+
+        $groups->add('text', array(
+            'id' => 'serial_number',
+            'labelClass' => 'g-input icon-customer',
+            'itemClass' => 'width50',
+            'label' => '{LNG_Case Number}',
+            'value' => '',
+            'autofocus' => true,
+            'readonly' => $ship
+        ));
 
         $groups = $fieldset->add('groups');
 
@@ -184,26 +183,23 @@ class View extends \Gcms\View
             'uri' => $uri,
             'model' => \wms\pickcase\Model::toDataTable($so),
             'onRow' =>array($this,'onRow'),
-            'hideColumns' => array('id'),
+            'hideColumns' => array('status'),
             'perPage' => $request->cookie('inventoryProject_perPage',10)->toInt(),
             'sort' => $request->cookie('inventoryProject_sort', 'id desc')->toString(),
             'actionCallback' =>'dataTableActionCallback',
             'headers' => array(
-                'serial_number' => array(
-                    'text' => '{LNG_Box ID}'
-                ),
-                'case_number' => array(
-                    'text' => '{LNG_Case Number}'
-                ),
                 'material_number' => array(
                     'text' => '{LNG_Material Number}'
                 ),
-                'actual_quantity' => array(
-                    'text' => '{LNG_Quantity}'
+                'plan_qty' => array(
+                    'text' => '{LNG_Plan Qty}',
                 ), 
-                'location_code' => array(
-                    'text' => '{LNG_Location}'
-                ) 
+                'ship_qty' => array(
+                    'text' => '{LNG_Ship Qty}',
+                ),
+                'diff' => array(
+                    'text' => '{LNG_Difference}',
+                ), 
             )
         ));
 
@@ -215,6 +211,16 @@ class View extends \Gcms\View
 
     public function onRow($item, $o, $prop)
     {
+            
+        $item['plan_qty'] = number_format((float)$item['plan_qty'], 1, '.', '');
+        $item['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
+        $item['diff'] = $item['plan_qty'] - $item['ship_qty'];
+
+        if ($item['diff'] == 0) {
+        $item['material_number'] = ' <p class=bg-green>'. $item['material_number'] .'</p>';
+        } else {
+        $item['material_number'] = ' <p class=bg-red>'. $item['material_number'] .'</p>';
+        }
          return $item;
     }
 

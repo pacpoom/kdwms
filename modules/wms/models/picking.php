@@ -46,17 +46,14 @@ class Model extends \Kotchasan\Model{
     public static function toDataTable($so){
 
         $where = array();
-        $where[] = array('T1.sale_order',$so);
-        $where[] = array('T1.actual_id',0);
+        $where[] = array('sale_order',$so);
 
         return static::createQuery()
-        ->select('T1.id','T2.serial_number','T4.material_number','T2.actual_quantity','T3.location_code')
-        ->from('delivery_order T1')
-        ->join('inventory_stock T2','LEFT',array('T1.inventory_id','T2.id'))
-        ->join('location T3','LEFT',array('T2.location_id','T3.id'))
-        ->join('material T4','LEFT',array('T2.material_id','T4.id'))
+        ->select('status','material_number',SQL::SUM('planed_quantity','plan_qty'),'ship_qty','ship_qty diff')
+        ->from('sale_order')
         ->where($where)
-        ->order('T3.location_code');
+        ->groupBy('status','material_number','ship_qty')
+        ->order('status','material_number');
 
     }
 

@@ -722,4 +722,7 @@ return array(
   'Difference Quantity' => 'จำนวนที่แตกต่าง',
   'Original Location' => 'ตำแหน่งเดิม',
   'Confirm Date' => 'วันที่ยืนยัน',
+  'Ship Qty' => 'จำนวนการจัดส่ง',
+  'Plan Qty' => 'จำนวนแผน',
+  'Difference' => 'จำนวนที่แตกต่าง',
 );
