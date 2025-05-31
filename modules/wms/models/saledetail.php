@@ -20,45 +20,47 @@ class model extends \Kotchasan\Model{
             $where[] = array('T1.status',0);
         } elseif ($params['status'] == 1){
             $where[] = array('T1.status',1);
-            
-            if (empty($params['so'])) {
-                if (!empty($params['from'])){
-                    $strNewDate = date('Ymd', strtotime($params['from']));
-                    $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                } else {
-                    $strNewDate = date('Ymd');
-                    $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                }
+            // 
+            // if (empty($params['so'])) {
+                // if (!empty($params['from'])){
+                    // $strNewDate = date('Ymd', strtotime($params['from']));
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
+                // } else {
+                    // $strNewDate = date('Ymd');
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
+                // }
     
-                if (!empty($params['to'])){
-                    $strNewDate = date('Ymd', strtotime($params['to']));
-                    $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                } else {
-                    $strNewDate = date('Ymd');
-                    $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                }
-            }
-        } elseif ($params['status'] == 2) {
+                // if (!empty($params['to'])){
+                    // $strNewDate = date('Ymd', strtotime($params['to']));
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
+                // } else {
+                    // $strNewDate = date('Ymd');
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
+                // }
+            // }
+        // } elseif ($params['status'] == 2) {
 
-            if (empty($params['so'])) {
-                if (!empty($params['from'])){
-                    $strNewDate = date('Ymd', strtotime($params['from']));
-                    $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                } else {
-                    $strNewDate = date('Ymd');
-                    $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
-                }
+            // if (empty($params['so'])) {
+                // if (!empty($params['from'])){
+                    // $strNewDate = date('Ymd', strtotime($params['from']));
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
+                // } else {
+                    // $strNewDate = date('Ymd');
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'>=',$strNewDate);
+                // }
     
-                if (!empty($params['to'])){
-                    $strNewDate = date('Ymd', strtotime($params['to']));
-                    $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                } else {
-                    $strNewDate = date('Ymd');
-                    $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
-                }
-            }
+                // if (!empty($params['to'])){
+                    // $strNewDate = date('Ymd', strtotime($params['to']));
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
+                // } else {
+                    // $strNewDate = date('Ymd');
+                    // $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
+                // }
+            // }
 
         }
+
+        //$where[] = array('T1.sale_order',$params['so']);
 
         if (!empty($params['so'])) {
             $where[] = array('T1.sale_order',$params['so']);
@@ -78,6 +80,7 @@ class model extends \Kotchasan\Model{
             $where[] = array(sql::DATE('T1.delivery_date'),'<=',$strNewDate);
         }
 
+       // var_dump($where);
 
         return static::createQuery()
         ->select('T1.sale_order','T1.delivery_date','T1.customer_code','T1.customer_name',

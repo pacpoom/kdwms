@@ -74,6 +74,7 @@ class Model extends \Kotchasan\KBase
         $header['material_number'] = Language::trans('{LNG_Material Number}');
         $header['planed_quantity'] = Language::trans('{LNG_Order Qty}');
         $header['ship_qty'] = Language::trans('{LNG_Ship Quantity}');
+        $header['diff_qty'] = Language::trans('{LNG_Difference Quantity}');
         return $header;
     }
 

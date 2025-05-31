@@ -194,8 +194,10 @@ class Controller extends \Kotchasan\Controller
             $rs['customer_code'] = $item['customer_code'];
             $rs['customer_name'] = $item['customer_name'];
             $rs['material_number'] = $item['material_number'];
-            $rs['planed_quantity'] = $item['planed_quantity'];
-            $rs['ship_qty'] = $item['ship_qty'];
+            $rs['planed_quantity'] = number_format((float)$item['planed_quantity'], 1, '.', '');
+            $rs['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
+            $rs['diff_qty'] = $item['planed_quantity'] - $item['ship_qty'];
+
             $datas[] = $rs;
         }
         return \Kotchasan\Csv::send($file_name, $header, $datas, self::$cfg->csv_language);
