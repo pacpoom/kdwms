@@ -218,8 +218,6 @@ class View extends \Gcms\View
 
         if ($item['diff'] == 0) {
         $item['material_number'] = ' <p class=bg-green>'. $item['material_number'] .'</p>';
-        } else {
-        $item['material_number'] = ' <p class=bg-red>'. $item['material_number'] .'</p>';
         }
          return $item;
     }

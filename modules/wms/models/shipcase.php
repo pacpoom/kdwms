@@ -45,17 +45,15 @@ class Model extends \Kotchasan\Model{
 
         $where = array();
         $where[] = array('T1.pallet_no',$pallet_no);
-        $where[] = array('T1.truck_confirm',0);
 
         return static::createQuery()
-        ->select('T1.id','T2.serial_number','T5.case_number','T4.material_number')
+        ->select('T5.case_number','T1.truck_confirm')
         ->from('delivery_order T1')
         ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
-        ->join('location T3','LEFT',array('T2.location_id','T3.id'))
-        ->join('material T4','LEFT',array('T2.material_id','T4.id'))
         ->join('packing_list T5','LEFT',array('T2.reference','T5.id'))
         ->where($where)
-        ->order('T4.material_number');
+        ->groupBy('T5.case_number','T1.truck_confirm')
+        ->order('T5.case_number');
 
     }
 

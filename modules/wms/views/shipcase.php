@@ -136,6 +136,9 @@ class View extends \Gcms\View
                 'material_number' => array(
                     'text' => '{LNG_Material Number}'
                 ),
+                'truck_confirm' => array(
+                    'text' => '{LNG_Truck Confirm}'
+                ),
             )
         ));
 
@@ -147,6 +150,11 @@ class View extends \Gcms\View
 
     public function onRow($item, $o, $prop)
     {
+        if ($item['truck_confirm'] == 1) {
+            $item['truck_confirm'] = '<center><p class=bg-green>Confirmed</p></center>';
+        } else {
+            $item['truck_confirm'] = '<center>Not Confirmed</center>';
+        }
          return $item;
     }
 
