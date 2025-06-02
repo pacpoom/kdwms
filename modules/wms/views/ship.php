@@ -52,8 +52,6 @@ class View extends \Gcms\View
             'titleClass' => 'icon-profile',
         ));
 
-        $groups = $fieldset->add('groups');
-
         if($status == 0) {
             $read = true;
             $location = false;
@@ -61,16 +59,6 @@ class View extends \Gcms\View
             $read = false;
             $location = true;
         }
-
-        $groups->add('text', array(
-            'id' => 'serial_number',
-            'labelClass' => 'g-input icon-customer',
-            'itemClass' => 'width70',
-            'placeholder' => 'Scan Qr Code',
-            'value' => '',
-            'autofocus' => $location,
-            'readonly' => $read
-        ));
 
         $groups = $fieldset->add('groups');
 
@@ -82,6 +70,19 @@ class View extends \Gcms\View
             'readonly' => $location,
             'placeholder' => '{LNG_Pallet No}',
             'value' => isset($pallet) ? $pallet : '',
+        ));
+
+        $groups = $fieldset->add('groups');
+
+        $groups->add('text', array(
+            'id' => 'serial_number',
+            'labelClass' => 'g-input icon-customer',
+            'itemClass' => 'width70',
+            'placeholder' => 'Scan Qr Code',
+            'label' => '{LNG_Box ID}',
+            'value' => '',
+            'autofocus' => $location,
+            'readonly' => $read
         ));
 
         $fieldset = $form->add('fieldset', array(
