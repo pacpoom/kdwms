@@ -114,7 +114,7 @@ class Model extends \Kotchasan\Model{
         return static::createQuery()
         ->select('id','container','receive_flg','material_id','box_id','quantity')
         ->from('packing_list')
-        ->where(array(array('container',$id),array('case_number',$box),array('receive_flg',0)))
+        ->where(array(array('container',$id),array('case_number',$box),array('receive_flg',0),array('storage_location',1097)))
         ->execute();
     }
 
