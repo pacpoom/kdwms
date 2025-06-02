@@ -89,7 +89,7 @@ class Model extends \Kotchasan\Model{
         $where[] = array('T1.pallet_no',$location_code);
 
         return static::createQuery()
-        ->select('T1.id','T2.serial_number','T4.material_number','T1.pallet_no',
+        ->select('T1.id','T1.sale_order','T2.serial_number','T4.material_number','T1.pallet_no',
         'T1.truck_confirm','T2.material_id','T2.reference','T2.location_id')
         ->from('delivery_order T1')
         ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
@@ -101,6 +101,21 @@ class Model extends \Kotchasan\Model{
 
     }
 
+
+    
+    public static function GetSo_detail($so){
+
+        $where = array();
+        $where[] = array('T1.sale_order',$so);
+
+        return static::createQuery()
+        ->select('T1.id','T2.customer_code','T2.customer_name')
+        ->from('sale_order_status T1')
+        ->join('customer_master T2','LEFT',array('T1.customer_id','T2.id'))
+        ->where($where)
+        ->execute();
+
+    }
 
     public function submit(Request $request){
 
@@ -170,7 +185,8 @@ class Model extends \Kotchasan\Model{
                                     $request->removeToken(); 
                                 } else {
 
-                                    $check_so = \wms\picking\Model::GetSo_detail($check_serial[0]->sale_order);
+                                    $check_so = static::GetSo_detail($check_serial[0]->sale_order);
+
                                     $pallet = \wms\picking\Model::GetPallet($location_code);
 
                                     foreach ($check_serial as $key => $value) {
