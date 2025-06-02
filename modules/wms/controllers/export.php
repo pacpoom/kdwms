@@ -204,7 +204,7 @@ class Controller extends \Kotchasan\Controller
     }
 
     private function detail(Request $request){
-
+       
         $params = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),

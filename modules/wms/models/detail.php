@@ -97,6 +97,7 @@ class model extends \Kotchasan\Model{
                 // Database
                 $db = $this->db();
                 // id ที่ส่งมา
+                
                 if ($action ==='addlocation'){
 
                     $index = \wms\location\Model::get($request->post('id')->toInt());
@@ -104,6 +105,7 @@ class model extends \Kotchasan\Model{
                     $ret['modal'] = Language::trans(\wms\locations\View::create()->render($index,$login));
                     
                 } elseif ($action ==='export') {
+            
                     $params = $request->getParsedBody();
                     $params['module'] = 'wms-export';
                     $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=detail&amp;';
