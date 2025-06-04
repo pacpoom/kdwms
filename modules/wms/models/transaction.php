@@ -20,7 +20,7 @@ class model extends \Kotchasan\Model{
         } else {
 
             $strStartDate = date('Y-m-d 00:00:00');
-            $strNewDate = date('Y-m-d 00:00:00', strtotime('-7 day', strtotime($strStartDate)));
+            $strNewDate = date('Y-m-d 00:00:00', strtotime('-1 day', strtotime($strStartDate)));
 
             $where[] = array(sql::DATE('T1.transaction_date'),'>=',$strNewDate);
         }
