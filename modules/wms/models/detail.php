@@ -18,7 +18,7 @@ class model extends \Kotchasan\Model{
         if (!empty($params['material_number'])) {
             $where[] = array('material_number',$params['material_number']);
         }
-
+ 
         if (!empty($params['sale_order'])){
             $where[] = array('sale_order',$params['sale_order']);
         }
@@ -41,12 +41,12 @@ class model extends \Kotchasan\Model{
 
         if (!empty($params['from'])){
                 $strNewDate = date('Y-m-d', strtotime($params['from']));
-                $where[] = array(sql::DATE('T1.ship_date'),'>=',$strNewDate);
+                $where[] = array(sql::DATE('T1.truck_date'),'>=',$strNewDate);
         }
 
         if (!empty($params['to'])){
                 $strNewDate = date('Y-m-d', strtotime($params['to']));
-                $where[] = array(sql::DATE('T1.ship_date'),'<=',$strNewDate);
+                $where[] = array(sql::DATE('T1.truck_date'),'<=',$strNewDate);
         }
 
        // var_dump($where);
