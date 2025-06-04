@@ -71,8 +71,39 @@ class Controller extends \Kotchasan\Controller
             case 'containers' :
                 $this->containers($request);
                 break;
+            case 'shipstock' :
+                $this->shipstock($request);
+                break;
         }
 
+    }
+
+    private function shipstock(Request $request){
+        
+        $params = array();
+        $header = \wms\csv\Model::shipstock();
+        $datas = array();
+        $data = \wms\export\Model::shipstock($params);
+        $rs = array();
+        $file_name = 'shipstock' . date('His');
+        $i = 0;
+
+        foreach ($data as $item){
+        
+            $rs['no'] = ++$i;
+            $rs['sale_order'] = $item['sale_order'];
+            $rs['customer_code'] = $item['customer_code'];
+            $rs['customer_name'] = $item['customer_name'];
+            $rs['serial_number'] = $item['serial_number'];
+            $rs['material_number'] = $item['material_number'];
+            $rs['quantity'] = $item['quantity'];
+            $rs['ship_date'] = $item['ship_date'];
+            $rs['ship_date'] = $item['ship_date'];
+            $rs['pallet_no'] = $item['pallet_no'];
+            $rs['pallet_no'] = $item['pallet_no'];
+            $datas[] = $rs;
+        }
+        return \Kotchasan\Csv::send($file_name, $header, $datas, self::$cfg->csv_language);
     }
 
     private function containers(Request $request){

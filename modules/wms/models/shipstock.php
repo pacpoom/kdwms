@@ -70,7 +70,7 @@ class model extends \Kotchasan\Model{
                 } elseif ($action ==='export') {
                     $params = $request->getParsedBody();
                     $params['module'] = 'wms-export';
-                    $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=cystock&amp;';
+                    $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=shipstock&amp;';
                 } else{
                     if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->filter('0-9,'), $match)) {
                        

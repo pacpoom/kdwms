@@ -9,6 +9,24 @@ use Kotchasan\Database\Sql;
 
 class model extends \Kotchasan\Model{
 
+
+    public static function shipstock($params){
+        $params = array();
+        $where = array();
+        $where[] = array('T1.actual_id','!=',0);
+        $where[] = array('T1.truck_confirm',0);
+
+        return static::createQuery()
+        ->select('T1.id','T1.sale_order','T1.customer_code','T1.customer_name','T2.serial_number','T1.material_number','T1.quantity','T1.ship_date','T1.pallet_no')
+        ->from('delivery_order T1')
+        ->join('inventory_stock T2', 'LEFT',array('T2.id','T1.actual_id'))
+        ->where($where)
+        ->order('T1.sale_order','T1.material_number','T1.pallet_no')
+        ->toArray()
+        ->execute();
+
+    }
+
     public static function containers($params) {
 
      $where = array();
