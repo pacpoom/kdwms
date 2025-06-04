@@ -70,7 +70,7 @@ class View extends \Gcms\View{
                     ),
                     array(
                         'type' => 'text',
-                        'name' => 'so',
+                        'name' => 'sale_order',
                         'value' => $params['sale_order'],
                         'placeholder' => '{LNG_Sale Order}'
                     ),
