@@ -725,4 +725,5 @@ return array(
   'Ship Qty' => 'จำนวนการจัดส่ง',
   'Plan Qty' => 'จำนวนแผน',
   'Difference' => 'จำนวนที่แตกต่าง',
+  'Pallet Management' => 'การจัดการพาเลท',
 );
