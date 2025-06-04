@@ -12,6 +12,20 @@ class View extends \Gcms\View{
 
         $params = array();
         $export = array();
+
+        $params = array(
+            'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'sale_order' => $request->request('sale_order')->toString(),
+            'customer' => $request->request('customer')->toString(),
+        );
+
+        $export = array(
+            'from' => $request->request('from')->date(),
+            'to' => $request->request('to')->date(),
+            'sale_order' => $request->request('sale_order')->toString(),
+            'customer' => $request->request('customer')->toString(),
+        );
         
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         $this->category = \index\category\Model::init(false);
@@ -24,40 +38,68 @@ class View extends \Gcms\View{
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
             'searchColumns' => array('id','temp_material','container','case_number','box_id','storage_location'),
-            'hideCheckbox' => true,
-            'action' => 'index.php/wms/model/cystock/action',
+            'hideCheckbox' => false,
+            'action' => 'index.php/wms/model/pallets/action',
             'actionCallback' =>'dataTableActionCallback',
-            'actions' => array(
+             'actions' => array(
                 array(
-                    'class' => 'button orange icon-excel',
-                    'id' => 'export&'.http_build_query($export),
-                    'text' => '{LNG_Download}'
+                    'id' => 'action',
+                    'class' => 'ok',
+                    'text' => '{LNG_With selected}',
+                    'options' => array(
+                        'print' => '{LNG_Print}',
+                    )
                 )
             ),
+             'filters' => array(
+                array(
+                    'type' => 'date',
+                    'name' => 'from',
+                    'text' => '{LNG_from}',
+                    'value' => $params['from'],
+                    'placeholder' => 'วันเริ่ม'
+                    ),
+                    array(
+                    'type' => 'date',
+                    'name' => 'to',
+                    'text' => '{LNG_to}',
+                    'value' => $params['to'],
+                    'placeholder' => 'วันสิ้นสุด'
+                    ),
+                    array(
+                        'type' => 'text',
+                        'name' => 'sale_order',
+                        'value' => $params['sale_order'],
+                        'placeholder' => '{LNG_Sale Order}'
+                    ),
+                    array(
+                        'type' => 'text',
+                        'name' => 'customer',
+                        'value' => $params['customer'],
+                        'placeholder' => '{LNG_Customer No.}'
+                    )
+            ),
             'headers' => array(
-                'container' => array(
-                    'text' => '{LNG_Container Number}'
+                'sale_order' => array(
+                    'text' => '{LNG_sale order}'
                 ),
-                'case_number' => array(
-                    'text' => '{LNG_Case Number}'
+                'delivery_date' => array(
+                    'text' => '{LNG_Delivery Date}',
                 ),
-                'box_id' => array(
-                    'text' => '{LNG_Box ID}'
+                'customer' => array(
+                    'text' => '{LNG_Customer No.}',
                 ),
-                'temp_material' => array(
-                    'text' => '{LNG_Material Number}'
+                'location_code' => array(
+                    'text' => '{LNG_Location Code}'
                 ),
-                'quantity' => array(
-                    'text' => '{LNG_Quantity}'
+                'truck_id' => array(
+                    'text' => '{LNG_Truck ID}'
                 ),
-                'delivery_order' => array(
-                    'text' => '{LNG_Delivery Type}'
+                'truck_flg' => array(
+                    'text' => '{LNG_Truck Confirm}',
                 ),
-                'container_received' => array(
-                    'text' => '{LNG_Received Date}'
-                ),
-                'storage_location' => array(
-                    'text' => '{LNG_Location}'
+                'truck_date' => array(
+                    'text' => '{LNG_Truck Date}',
                 )
             ),
         ));
@@ -70,7 +112,12 @@ class View extends \Gcms\View{
 
     public function onRow($item, $o, $prop)
     {
-        $item['quantity'] = currency::format($item['quantity']);
+        if ($item['truck_flg'] == 1) {
+            $item['truck_flg'] = '<center><p class=bg-green>Confirmed</p></center>';
+        } else {
+            $item['truck_flg'] = '<center>Not Confirmed</center>';
+        }
+        
         return $item;
     }
 }

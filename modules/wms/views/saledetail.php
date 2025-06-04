@@ -136,7 +136,7 @@ class View extends \Gcms\View{
 
         $item['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
         $item['planed_quantity'] = number_format((float)$item['planed_quantity'], 1, '.', '');
-        $item['diff_qty'] = $item['planed_quantity'] - $item['ship_qty'];
+        $item['diff_qty'] = number_format((float)$item['planed_quantity'], 1, '.', '') - number_format((float)$item['ship_qty'], 1, '.', '');
 
         return $item;
     }
