@@ -265,6 +265,7 @@ class Controller extends \Kotchasan\Controller
             $rs['ship_date'] = $item['ship_date'];
             $rs['truck_confirm_date'] = $item['truck_confirm_date'];
             $rs['pallet_no'] = $item['pallet_no'];
+            $rs['truck_date'] = $item['truck_date'];
             $rs['truck_id'] = $item['truck_id'];
             $rs['confirm_flg'] = $item['confirm_flg'];
             $rs['confirm_date'] = $item['confirm_date'];
