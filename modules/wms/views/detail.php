@@ -57,7 +57,7 @@ class View extends \Gcms\View{
                 array(
                     'type' => 'date',
                     'name' => 'from',
-                    'text' => '{LNG_Ship Date}',
+                    'text' => '{LNG_Truck Date}',
                     'value' => $params['from'],
                     'placeholder' => 'วันเริ่ม'
                     ),
@@ -70,7 +70,7 @@ class View extends \Gcms\View{
                     ),
                     array(
                         'type' => 'text',
-                        'name' => 'so',
+                        'name' => 'sale_order',
                         'value' => $params['sale_order'],
                         'placeholder' => '{LNG_Sale Order}'
                     ),

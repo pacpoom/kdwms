@@ -31,7 +31,7 @@ class View extends \Gcms\View{
             'sort' => $request->cookie('sort', 'transaction_date')->toString(),
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
-            'searchColumns' => array('id','transaction_type','container','case_number','serial_number','material_number','material_name_en','quantity','unit','from_location','location_code','username'),
+            'searchColumns' => array('transaction_type','container','case_number','serial_number','material_number','material_name_en','sale_order'),
             'hideCheckbox' => true,
             'action' => 'index.php/wms/model/transaction/action',
             'actionCallback' =>'dataTableActionCallback',

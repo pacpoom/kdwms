@@ -1,62 +1,57 @@
 <?php
 
-namespace wms\saledetail;
+namespace wms\pallets;
 
 use Kotchasan\Currency;
 use Kotchasan\DataTable;
 use Kotchasan\Http\Request;
 
 class View extends \Gcms\View{
-
     private $category;
-
     public function render (Request $request){
+
+        $params = array();
+        $export = array();
 
         $params = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'so' => $request->request('so')->toString(),
+            'sale_order' => $request->request('sale_order')->toString(),
             'customer' => $request->request('customer')->toString(),
-            'status' => $request->request('status')->toInt(),
         );
 
         $export = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'so' => $request->request('so')->toString(),
+            'sale_order' => $request->request('sale_order')->toString(),
             'customer' => $request->request('customer')->toString(),
-            'status' => $request->request('status')->toInt(),
-        );
-
-        $status = array(
-            0 => 'Pending',
-            1 => 'Complete',
-            2 => 'All'
         );
         
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         $this->category = \index\category\Model::init(false);
         
         $table = new DataTable(array(
-
             'uri' => $uri,
-            'model' => \wms\saledetail\Model::toDataTable($params),
+            'model' => \wms\pallets\Model::toDataTable($params),
             'perPage' => $request->cookie('perPage',10)->toInt(),
             'sort' => $request->cookie('sort', 'id desc')->toString(),
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
-            'searchColumns' => array('sale_order','material_number'),
-            'hideCheckbox' => true,
-            'action' => 'index.php/wms/model/saledetail/action',
+            'searchColumns' => array('id','temp_material','container','case_number','box_id','storage_location'),
+            'hideCheckbox' => false,
+            'action' => 'index.php/wms/model/pallets/action',
             'actionCallback' =>'dataTableActionCallback',
-            'actions' => array(
+             'actions' => array(
                 array(
-                    'class' => 'button orange icon-excel',
-                    'id' => 'export&'.http_build_query($export),
-                    'text' => '{LNG_Download}'
+                    'id' => 'action',
+                    'class' => 'ok',
+                    'text' => '{LNG_With selected}',
+                    'options' => array(
+                        'print' => '{LNG_Print}',
+                    )
                 )
             ),
-            'filters' => array(
+             'filters' => array(
                 array(
                     'type' => 'date',
                     'name' => 'from',
@@ -72,15 +67,9 @@ class View extends \Gcms\View{
                     'placeholder' => 'วันสิ้นสุด'
                     ),
                     array(
-                        'name' => 'status',
-                        'text' => '{LNG_Status}',
-                        'options' => $status,
-                        'value' => $params['status']
-                    ),
-                    array(
                         'type' => 'text',
-                        'name' => 'so',
-                        'value' => $params['so'],
+                        'name' => 'sale_order',
+                        'value' => $params['sale_order'],
                         'placeholder' => '{LNG_Sale Order}'
                     ),
                     array(
@@ -92,37 +81,27 @@ class View extends \Gcms\View{
             ),
             'headers' => array(
                 'sale_order' => array(
-                    'text' => '{LNG_Sale Order Number}'
+                    'text' => '{LNG_sale order}'
                 ),
                 'delivery_date' => array(
-                    'text' => '{LNG_Delivery Date}'
+                    'text' => '{LNG_Delivery Date}',
                 ),
-                'customer_code' => array(
-                    'text' => '{LNG_Customer Code}'
+                'customer' => array(
+                    'text' => '{LNG_Customer No.}',
                 ),
-                'customer_name' => array(
-                    'text' => '{LNG_Customer Name}'
+                'location_code' => array(
+                    'text' => '{LNG_Location Code}'
                 ),
-                'material_number' => array(
-                    'text' => '{LNG_Material Number}'
+                'truck_id' => array(
+                    'text' => '{LNG_Truck ID}'
                 ),
-                'planed_quantity' => array(
-                    'text' => '{LNG_Order Qty}'
+                'truck_flg' => array(
+                    'text' => '{LNG_Truck Confirm}',
                 ),
-                'ship_qty' => array(
-                    'text' => '{LNG_Ship Quantity}'
-                ),
-                'diff_qty' => array(
-                    'text' => '{LNG_Difference Quantity}'
-                ),
+                'truck_date' => array(
+                    'text' => '{LNG_Truck Date}',
+                )
             ),
-            'buttons' => array (
-                'description' => array(
-                    'class' => 'icon-world button blue',
-                    'href' => $uri->createBackUri(array('module' => 'wms-detail', 'sale_order' => ':sale_order', 'material_number' => ':material_number')),
-                    'title' => '{LNG_Detail}'
-                ),
-            )
         ));
                 // save cookie
                 setcookie('perPage', $table->perPage, time() + 2592000, '/', HOST, HTTPS, true);
@@ -133,11 +112,12 @@ class View extends \Gcms\View{
 
     public function onRow($item, $o, $prop)
     {
-
-        $item['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
-        $item['planed_quantity'] = number_format((float)$item['planed_quantity'], 1, '.', '');
-        $item['diff_qty'] = number_format((float)$item['planed_quantity'], 1, '.', '') - number_format((float)$item['ship_qty'], 1, '.', '');
-
+        if ($item['truck_flg'] == 1) {
+            $item['truck_flg'] = '<center><p class=bg-green>Confirmed</p></center>';
+        } else {
+            $item['truck_flg'] = '<center>Not Confirmed</center>';
+        }
+        
         return $item;
     }
 }

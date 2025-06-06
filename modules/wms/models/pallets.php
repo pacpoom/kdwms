@@ -1,6 +1,6 @@
 <?php
 
-namespace wms\detail;
+namespace wms\pallets;
 
 use Gcms\Login;
 use Kotchasan\Http\Request;
@@ -9,56 +9,40 @@ use Kotchasan\Database\Sql;
 
 class model extends \Kotchasan\Model{
 
-    protected $table ='location';
+    protected $table ='pallet_log';
 
     public static function toDataTable($params){
-        
+        // กำหนดค่าเริ่มต้นของพารามิเตอร์
         $where = array();
-        
-        if (!empty($params['material_number'])) {
-            $where[] = array('material_number',$params['material_number']);
-        }
- 
-        if (!empty($params['sale_order'])){
-            $where[] = array('sale_order',$params['sale_order']);
-        }
 
-        if (!empty($params['create_from'])){
-                $strNewDate = date('Y-m-d', strtotime($params['create_from']));
-                $where[] = array(sql::DATE('T1.created_at'),'>=',$strNewDate);
+        if (!empty($params['from'])) {
+            $where[] = array('delivery_date', '>=', $params['from']);
         } else {
-                $strNewDate = date('Y-m-d', strtotime('-30 day'));
-                $where[] = array(sql::DATE('T1.created_at'),'>=',$strNewDate);
+            $params['from'] = date('Y-m-d', strtotime('-1 day'));
+            $where[] = array('delivery_date', '>=', $params['from']);
         }
 
-        if (!empty($params['create_to'])){
-                $strNewDate = date('Y-m-d', strtotime($params['create_to']));
-                $where[] = array(sql::DATE('T1.created_at'),'<=',$strNewDate);
+        if (!empty($params['to'])) {
+            $where[] = array('delivery_date', '<=', $params['to']);
         } else {
-                $strNewDate = date('Y-m-d');
-                $where[] = array(sql::DATE('T1.created_at'),'<=',$strNewDate);
+            $params['to'] = date('Y-m-d');
+            $where[] = array('delivery_date', '<=', $params['to']);
         }
 
-        if (!empty($params['from'])){
-                $strNewDate = date('Y-m-d', strtotime($params['from']));
-                $where[] = array(sql::DATE('T1.truck_date'),'>=',$strNewDate);
+        if (isset($params['sale_order']) && $params['sale_order'] != '') {
+            $where[] = array('sale_order', $params['sale_order']);
         }
-
-        if (!empty($params['to'])){
-                $strNewDate = date('Y-m-d', strtotime($params['to']));
-                $where[] = array(sql::DATE('T1.truck_date'),'<=',$strNewDate);
+   
+        if (isset($params['customer']) && $params['customer'] != '') {
+            $where[] = array('customer', $params['customer']);
         }
-
-       // var_dump($where);
+   
         return static::createQuery()
-        ->select('T1.id','T1.sale_order','T1.material_number','T3.serial_number','T5.location_code original_location'
-        ,'T2.serial_number pick','T4.location_code','T1.quantity','T1.ship_date','T1.pallet_no','T1.truck_confirm_date','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
-        ->from('delivery_order T1')
-        ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
-        ->join('inventory_stock T3','LEFT',array('T1.inventory_id','T3.id'))
-        ->join('location T4','LEFT',array('T2.location_id','T4.id'))
-        ->join('location T5','LEFT',array('T3.location_id','T5.id'))
-        ->where($where);
+        ->select('id','sale_order','delivery_date','customer','location_code','truck_id','truck_flg','truck_date')
+        ->from('pallet_log')
+        ->where($where)
+        ->order('sale_order','customer','location_code');
+
     }
 
     public static function get($id){
@@ -96,8 +80,9 @@ class model extends \Kotchasan\Model{
                 $action = $request->post('action')->toString(); 
                 // Database
                 $db = $this->db();
+                $db->query("TRUNCATE TABLE pallet_print;");
+
                 // id ที่ส่งมา
-                
                 if ($action ==='addlocation'){
 
                     $index = \wms\location\Model::get($request->post('id')->toInt());
@@ -105,22 +90,27 @@ class model extends \Kotchasan\Model{
                     $ret['modal'] = Language::trans(\wms\locations\View::create()->render($index,$login));
                     
                 } elseif ($action ==='export') {
-            
                     $params = $request->getParsedBody();
                     $params['module'] = 'wms-export';
-                    $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=detail&amp;';
+                    $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=cystock&amp;';
                 } else{
                     if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->filter('0-9,'), $match)) {
                        
-                        if ($action === 'delete') {
+                        if ($action === 'print') {
 
-                            //var_dump('delete');
-                            // ลบ
-                            $db->delete($this->getTableName('location'), array('id', $match[1]), 0); 
-                            // log
-                            \Index\Log\Model::add(0, 'location', 'Delete', '{LNG_Delete} {LNG_Inventory} ID : '.implode(', ', $match[1]), $login['id']);
-                            // reload
-                            $ret['location'] = 'reload';
+                            foreach ($match[1] As $row){
+                                // ตรวจสอบรายการที่มีอยู่แล้ว
+                                $index = \wms\pallets\Model::get($row);
+                                if ($index) {
+                                    $db->insert('pallet_print', array(
+                                        'id' => Null,
+                                        'sale_order' => $index->sale_order,
+                                        'delivery_date' => $index->delivery_date,
+                                        'customer' => $index->customer,
+                                        'location_code' => $index->location_code,
+                                    ));
+                                }
+                            }
     
                         } elseif ($action ==='export'){
     
@@ -130,6 +120,11 @@ class model extends \Kotchasan\Model{
     
                         } 
                     }
+
+                    $ret['alert'] = Language::get('Saved successfully');
+                    $ret['location'] = 'reload';
+                    $ret['open'] = 'https://sail.anjinyk.co.th/pdf/kd-pallet';
+                    $request->removeToken();
                 }
 
             }
