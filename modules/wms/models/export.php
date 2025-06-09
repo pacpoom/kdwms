@@ -57,6 +57,7 @@ class model extends \Kotchasan\Model{
             $where[] = array('container',$params['container']);
         } 
 
+
         return static::createQuery()
         ->select('id','status','receive_date','year_lot','week_lot','lot_no','container_size','model','delivery_date','eta_date'
         ,'ata_date','container_type','container','container_bl','total_material','total_case','total_box','total_quantity'
