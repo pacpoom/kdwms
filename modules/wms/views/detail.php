@@ -120,6 +120,9 @@ class View extends \Gcms\View{
                 'pallet_no' => array(
                     'text' => '{LNG_Pallet No}'
                 ),
+                'truck_date' => array(
+                    'text' => '{LNG_Truck Date}'
+                ),
                 'truck_id' => array(
                     'text' => '{LNG_Truck ID}'
                 ),

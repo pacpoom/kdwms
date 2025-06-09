@@ -37,7 +37,7 @@ class View extends \Gcms\View{
             'sort' => $request->cookie('sort', 'id desc')->toString(),
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
-            'searchColumns' => array('id','temp_material','container','case_number','box_id','storage_location'),
+            'searchColumns' => array('id','sale_order','customer','location_code'),
             'hideCheckbox' => false,
             'action' => 'index.php/wms/model/pallets/action',
             'actionCallback' =>'dataTableActionCallback',

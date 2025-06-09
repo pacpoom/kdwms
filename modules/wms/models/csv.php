@@ -178,6 +178,7 @@ class Model extends \Kotchasan\KBase
         $header['ship_date'] = Language::trans('{LNG_Ship Date}');
         $header['truck_confirm_date'] = Language::trans('{LNG_Confirm Date}');
         $header['pallet_no'] = Language::trans('{LNG_Pallet No}');
+        $header['truck_date'] = Language::trans('{LNG_Truck Date}');
         $header['truck_id'] = Language::trans('{LNG_Truck ID}');
         $header['confirm_flg'] = Language::trans('{LNG_Print Truck}');
         $header['confirm_date'] = Language::trans('{LNG_Print Date}');

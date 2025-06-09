@@ -14,7 +14,7 @@ class model extends \Kotchasan\Model{
         $params = array();
         $where = array();
         $where[] = array('T1.actual_id','!=',0);
-        $where[] = array('T1.truck_confirm',0);
+        $where[] = array('T1.confirm_flg',0);
 
         return static::createQuery()
         ->select('T1.id','T1.sale_order','T1.customer_code','T1.customer_name','T2.serial_number','T1.material_number','T1.quantity','T1.ship_date','T1.pallet_no')
