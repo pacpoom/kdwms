@@ -15,7 +15,7 @@ class View extends \Gcms\View{
         $params = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'so' => $request->request('so')->toString(),
+            'sale_order' => $request->request('sale_order')->toString(),
             'customer' => $request->request('customer')->toString(),
             'status' => $request->request('status')->toInt(),
         );
@@ -23,7 +23,7 @@ class View extends \Gcms\View{
         $export = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'so' => $request->request('so')->toString(),
+            'sale_order' => $request->request('sale_order')->toString(),
             'customer' => $request->request('customer')->toString(),
             'status' => $request->request('status')->toInt(),
         );
@@ -79,8 +79,8 @@ class View extends \Gcms\View{
                     ),
                     array(
                         'type' => 'text',
-                        'name' => 'so',
-                        'value' => $params['so'],
+                        'name' => 'sale_order',
+                        'value' => $params['sale_order'],
                         'placeholder' => '{LNG_Sale Order}'
                     ),
                     array(
