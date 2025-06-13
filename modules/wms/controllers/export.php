@@ -227,7 +227,7 @@ class Controller extends \Kotchasan\Controller
             $rs['material_number'] = $item['material_number'];
             $rs['planed_quantity'] = number_format((float)$item['planed_quantity'], 1, '.', '');
             $rs['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
-            $rs['diff_qty'] = $item['planed_quantity'] - $item['ship_qty'];
+            $rs['diff_qty'] = number_format((float)$item['planed_quantity'], 1, '.', '') - number_format((float)$item['ship_qty'], 1, '.', '');
 
             $datas[] = $rs;
         }
