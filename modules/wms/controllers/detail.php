@@ -28,7 +28,7 @@ class Controller extends \Gcms\Controller{
         $section->add('header',array(
          'innerHTML'=>'<h4 class="icon-config">'.$this->title.'</h4>'
         ));
- 
+        
         $section->appendChild(\wms\detail\View::create()->render($request,$request->request('sale_order')->toString(),$request->request('material_number')->toString()));
  
         return $section->render();
