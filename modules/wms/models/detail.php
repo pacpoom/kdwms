@@ -18,7 +18,7 @@ class model extends \Kotchasan\Model{
         if (!empty($params['material_number'])) {
             $where[] = array('material_number',$params['material_number']);
         }
-
+ 
         if (!empty($params['sale_order'])){
             $where[] = array('sale_order',$params['sale_order']);
         }
@@ -41,18 +41,18 @@ class model extends \Kotchasan\Model{
 
         if (!empty($params['from'])){
                 $strNewDate = date('Y-m-d', strtotime($params['from']));
-                $where[] = array(sql::DATE('T1.ship_date'),'>=',$strNewDate);
+                $where[] = array(sql::DATE('T1.truck_date'),'>=',$strNewDate);
         }
 
         if (!empty($params['to'])){
                 $strNewDate = date('Y-m-d', strtotime($params['to']));
-                $where[] = array(sql::DATE('T1.ship_date'),'<=',$strNewDate);
+                $where[] = array(sql::DATE('T1.truck_date'),'<=',$strNewDate);
         }
 
        // var_dump($where);
         return static::createQuery()
         ->select('T1.id','T1.sale_order','T1.material_number','T3.serial_number','T5.location_code original_location'
-        ,'T2.serial_number pick','T4.location_code','T1.quantity','T1.ship_date','T1.pallet_no','T1.truck_confirm_date','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
+        ,'T2.serial_number pick','T4.location_code','T1.quantity','T1.ship_date','T1.pallet_no','T1.truck_confirm_date','T1.truck_date','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
         ->from('delivery_order T1')
         ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
         ->join('inventory_stock T3','LEFT',array('T1.inventory_id','T3.id'))
@@ -97,6 +97,7 @@ class model extends \Kotchasan\Model{
                 // Database
                 $db = $this->db();
                 // id ที่ส่งมา
+                
                 if ($action ==='addlocation'){
 
                     $index = \wms\location\Model::get($request->post('id')->toInt());
@@ -104,6 +105,7 @@ class model extends \Kotchasan\Model{
                     $ret['modal'] = Language::trans(\wms\locations\View::create()->render($index,$login));
                     
                 } elseif ($action ==='export') {
+            
                     $params = $request->getParsedBody();
                     $params['module'] = 'wms-export';
                     $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=detail&amp;';

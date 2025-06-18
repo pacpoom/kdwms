@@ -46,6 +46,21 @@ class Model extends \Kotchasan\KBase
         return $header;
     }
 
+    public static function shipstock(){
+
+        $header = array();
+        $header['no'] = 'No';
+        $header['sale_order'] = Language::trans('{LNG_Sale Order}');
+        $header['customer_code'] = Language::trans('{LNG_Customer Code}');
+        $header['customer_name'] = Language::trans('{LNG_Customer Name}');
+        $header['serial_number'] = Language::trans('{LNG_serial Number}');
+        $header['material_number'] = Language::trans('{LNG_Material Number}');
+        $header['quantity'] = Language::trans('{LNG_Quantity}');
+        $header['ship_date'] = Language::trans('{LNG_Shipping Date}');
+        $header['pallet_no'] = Language::trans('{LNG_Pallet No}');
+        return $header;
+    }
+
     public static function stock(){
 
         $header = array();
@@ -163,6 +178,7 @@ class Model extends \Kotchasan\KBase
         $header['ship_date'] = Language::trans('{LNG_Ship Date}');
         $header['truck_confirm_date'] = Language::trans('{LNG_Confirm Date}');
         $header['pallet_no'] = Language::trans('{LNG_Pallet No}');
+        $header['truck_date'] = Language::trans('{LNG_Truck Date}');
         $header['truck_id'] = Language::trans('{LNG_Truck ID}');
         $header['confirm_flg'] = Language::trans('{LNG_Print Truck}');
         $header['confirm_date'] = Language::trans('{LNG_Print Date}');

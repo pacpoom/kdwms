@@ -58,7 +58,7 @@ class Model extends \Kotchasan\Model{
 
     public static function getContainer($raw){
         return static::createQuery()
-        ->select('T1.id','T1.inbound_date','T1.serial_number','T1.quantity','T4.location_code')
+        ->select('T1.id','T1.inbound_date','T1.serial_number','T1.actual_quantity','T4.location_code')
         ->from('inventory_stock T1')
         ->join('material T3','LEFT',array('T1.material_id','T3.id'))
         ->join('location T4','LEFT',array('T1.location_id','T4.id'))
