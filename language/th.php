@@ -727,4 +727,5 @@ return array(
   'Difference' => 'จำนวนที่แตกต่าง',
   'Pallet Management' => 'การจัดการพาเลท',
   'Truck Date' => 'วันที่รถบรรทุก',
+  'Picking By Box' => 'หยิบงานโดยหมายเลขกล่อง',
 );
