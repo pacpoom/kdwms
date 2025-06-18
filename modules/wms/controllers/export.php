@@ -71,39 +71,8 @@ class Controller extends \Kotchasan\Controller
             case 'containers' :
                 $this->containers($request);
                 break;
-            case 'shipstock' :
-                $this->shipstock($request);
-                break;
         }
 
-    }
-
-    private function shipstock(Request $request){
-        
-        $params = array();
-        $header = \wms\csv\Model::shipstock();
-        $datas = array();
-        $data = \wms\export\Model::shipstock($params);
-        $rs = array();
-        $file_name = 'shipstock' . date('His');
-        $i = 0;
-
-        foreach ($data as $item){
-        
-            $rs['no'] = ++$i;
-            $rs['sale_order'] = $item['sale_order'];
-            $rs['customer_code'] = $item['customer_code'];
-            $rs['customer_name'] = $item['customer_name'];
-            $rs['serial_number'] = $item['serial_number'];
-            $rs['material_number'] = $item['material_number'];
-            $rs['quantity'] = $item['quantity'];
-            $rs['ship_date'] = $item['ship_date'];
-            $rs['ship_date'] = $item['ship_date'];
-            $rs['pallet_no'] = $item['pallet_no'];
-            $rs['pallet_no'] = $item['pallet_no'];
-            $datas[] = $rs;
-        }
-        return \Kotchasan\Csv::send($file_name, $header, $datas, self::$cfg->csv_language);
     }
 
     private function containers(Request $request){
@@ -227,7 +196,7 @@ class Controller extends \Kotchasan\Controller
             $rs['material_number'] = $item['material_number'];
             $rs['planed_quantity'] = number_format((float)$item['planed_quantity'], 1, '.', '');
             $rs['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
-            $rs['diff_qty'] = number_format((float)$item['planed_quantity'], 1, '.', '') - number_format((float)$item['ship_qty'], 1, '.', '');
+            $rs['diff_qty'] = $item['planed_quantity'] - $item['ship_qty'];
 
             $datas[] = $rs;
         }
@@ -235,7 +204,7 @@ class Controller extends \Kotchasan\Controller
     }
 
     private function detail(Request $request){
-       
+
         $params = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
@@ -265,7 +234,6 @@ class Controller extends \Kotchasan\Controller
             $rs['ship_date'] = $item['ship_date'];
             $rs['truck_confirm_date'] = $item['truck_confirm_date'];
             $rs['pallet_no'] = $item['pallet_no'];
-            $rs['truck_date'] = $item['truck_date'];
             $rs['truck_id'] = $item['truck_id'];
             $rs['confirm_flg'] = $item['confirm_flg'];
             $rs['confirm_date'] = $item['confirm_date'];

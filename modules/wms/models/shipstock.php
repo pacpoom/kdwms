@@ -14,7 +14,7 @@ class model extends \Kotchasan\Model{
         $params = array();
         $where = array();
         $where[] = array('T1.actual_id','!=',0);
-        $where[] = array('T1.confirm_flg',0);
+        $where[] = array('T1.truck_confirm',0);
 
         return static::createQuery()
         ->select('T1.id','T1.sale_order','T1.customer_code','T1.customer_name','T2.serial_number','T1.material_number','T1.quantity','T1.ship_date','T1.pallet_no')
@@ -70,7 +70,7 @@ class model extends \Kotchasan\Model{
                 } elseif ($action ==='export') {
                     $params = $request->getParsedBody();
                     $params['module'] = 'wms-export';
-                    $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=shipstock&amp;';
+                    $ret['location'] = WEB_URL.'export.php?'.http_build_query($params).'&type=cystock&amp;';
                 } else{
                     if (preg_match_all('/,?([0-9]+),?/', $request->post('id')->filter('0-9,'), $match)) {
                        

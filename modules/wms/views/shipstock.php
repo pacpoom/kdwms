@@ -23,9 +23,9 @@ class View extends \Gcms\View{
             'sort' => $request->cookie('sort', 'id desc')->toString(),
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
-            'searchColumns' => array('sale_order','customer_code','customer_name','serial_number','material_number'),
+            'searchColumns' => array('id','temp_material','container','case_number','box_id','storage_location'),
             'hideCheckbox' => true,
-            'action' => 'index.php/wms/model/shipstock/action',
+            'action' => 'index.php/wms/model/cystock/action',
             'actionCallback' =>'dataTableActionCallback',
             'actions' => array(
                 array(

@@ -62,8 +62,8 @@ class model extends \Kotchasan\Model{
 
         //$where[] = array('T1.sale_order',$params['so']);
 
-        if (!empty($params['sale_order'])) {
-            $where[] = array('T1.sale_order',$params['sale_order']);
+        if (!empty($params['so'])) {
+            $where[] = array('T1.sale_order',$params['so']);
         } 
 
         if (!empty($params['customer'])) {

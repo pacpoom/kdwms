@@ -179,16 +179,6 @@ class model extends \Kotchasan\Model{
                     );
                     // update
                     $db->update($table_container, array('id', $check->id), $update);
-
-                     $update_gr = array(
-                    'gr_flg' => 1,
-                    'cy_flg' => 1,
-                    'container_received' => date('Y-m-d H:i:s'),
-                )   ;
-
-                    $table = $model->getTableName('packing_list');
-                    $db->update($table,array('container',$data[$this->header[0]]),$update_gr);
-
                     ++$this->row;
                 }
             }

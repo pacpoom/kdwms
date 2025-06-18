@@ -9,24 +9,6 @@ use Kotchasan\Database\Sql;
 
 class model extends \Kotchasan\Model{
 
-
-    public static function shipstock($params){
-        $params = array();
-        $where = array();
-        $where[] = array('T1.actual_id','!=',0);
-        $where[] = array('T1.truck_confirm',0);
-
-        return static::createQuery()
-        ->select('T1.id','T1.sale_order','T1.customer_code','T1.customer_name','T2.serial_number','T1.material_number','T1.quantity','T1.ship_date','T1.pallet_no')
-        ->from('delivery_order T1')
-        ->join('inventory_stock T2', 'LEFT',array('T2.id','T1.actual_id'))
-        ->where($where)
-        ->order('T1.sale_order','T1.material_number','T1.pallet_no')
-        ->toArray()
-        ->execute();
-
-    }
-
     public static function containers($params) {
 
      $where = array();
@@ -56,7 +38,6 @@ class model extends \Kotchasan\Model{
         if (!empty($params['container'])) {
             $where[] = array('container',$params['container']);
         } 
-
 
         return static::createQuery()
         ->select('id','status','receive_date','year_lot','week_lot','lot_no','container_size','model','delivery_date','eta_date'
@@ -149,12 +130,12 @@ class model extends \Kotchasan\Model{
 
     public static function get_detail($params){
         
-         $where = array();
+        $where = array();
         
         if (!empty($params['material_number'])) {
             $where[] = array('material_number',$params['material_number']);
         }
- 
+
         if (!empty($params['sale_order'])){
             $where[] = array('sale_order',$params['sale_order']);
         }
@@ -177,19 +158,18 @@ class model extends \Kotchasan\Model{
 
         if (!empty($params['from'])){
                 $strNewDate = date('Y-m-d', strtotime($params['from']));
-                $where[] = array(sql::DATE('T1.truck_date'),'>=',$strNewDate);
+                $where[] = array(sql::DATE('T1.ship_date'),'>=',$strNewDate);
         }
 
         if (!empty($params['to'])){
                 $strNewDate = date('Y-m-d', strtotime($params['to']));
-                $where[] = array(sql::DATE('T1.truck_date'),'<=',$strNewDate);
+                $where[] = array(sql::DATE('T1.ship_date'),'<=',$strNewDate);
         }
-
 
        // var_dump($where);
         return static::createQuery()
         ->select('T1.id','T1.sale_order','T1.material_number','T3.serial_number','T5.location_code original_location'
-        ,'T2.serial_number pick','T4.location_code','T1.quantity','T1.ship_date','T1.pallet_no','T1.truck_confirm_date','T1.truck_date','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
+        ,'T2.serial_number pick','T4.location_code','T1.quantity','T1.ship_date','T1.pallet_no','T1.truck_confirm_date','T1.truck_id','T1.confirm_flg','T1.confirm_date','T1.file_name')
         ->from('delivery_order T1')
         ->join('inventory_stock T2','LEFT',array('T1.actual_id','T2.id'))
         ->join('inventory_stock T3','LEFT',array('T1.inventory_id','T3.id'))

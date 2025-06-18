@@ -79,13 +79,13 @@ class View extends \Gcms\View
         $groups = $fieldset->add('groups');
 
         $groups->add('text', array(
-            'id' => 'so',
-            'labelClass' => 'g-input icon-world',
+            'id' => 'pallet',
+            'labelClass' => 'g-input icon-customer',
             'itemClass' => 'width50',
-            'label' => '{LNG_Sale Order Number}',
-            'datalist' => $sale_order,
-            'value' => isset($so) ? $so : '',
-            'readonly' => $read
+            'label' => '{LNG_Pallet No}',
+            'value' => '',
+            'autofocus' => true,
+            'readonly' => $ship
         ));
 
         $groups = $fieldset->add('groups');
@@ -103,13 +103,13 @@ class View extends \Gcms\View
         $groups = $fieldset->add('groups');
 
         $groups->add('text', array(
-            'id' => 'pallet',
-            'labelClass' => 'g-input icon-customer',
+            'id' => 'so',
+            'labelClass' => 'g-input icon-world',
             'itemClass' => 'width50',
-            'label' => '{LNG_Pallet No}',
-            'value' => '',
-            'autofocus' => true,
-            'readonly' => $ship
+            'label' => '{LNG_Sale Order Number}',
+            'datalist' => $sale_order,
+            'value' => isset($so) ? $so : '',
+            'readonly' => $read
         ));
 
         $fieldset = $form->add('fieldset', array(

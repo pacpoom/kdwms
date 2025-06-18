@@ -120,7 +120,7 @@ class Model extends \Kotchasan\Model{
 
     public static function GetBoxID($id,$box){
         return static::createQuery()
-        ->select('id','container','receive_flg','material_id','quantity','storage_location')
+        ->select('id','container','receive_flg','material_id','quantity')
         ->from('packing_list')
         ->where(array(array('container',$id),array('box_id',$box)))
         ->execute();
@@ -280,10 +280,6 @@ class Model extends \Kotchasan\Model{
                                 if ($checkBox == false) {
                                     $ret['serial_number']='';
                                     $ret['fault'] = Language::get('Box ID Incorrect');
-                                    $request->removeToken();
-                                } elseif ($checkBox[0]->storage_location != 1097) {
-                                    $ret['serial_number']='';
-                                    $ret['fault'] = Language::get('Storage Location Incorrect (1097)');
                                     $request->removeToken();
                                 } else {
                                     if ($checkBox[0]->receive_flg == 1) {

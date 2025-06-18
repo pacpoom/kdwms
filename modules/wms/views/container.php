@@ -110,9 +110,9 @@ class View extends \Gcms\View{
             'actionCallback' =>'dataTableActionCallback',
             'actions' => array(
                 array(
-                    'class' => 'button orange icon-excel',
-                    'id' => 'export&'.http_build_query($export),
-                    'text' => '{LNG_Download}'
+                    'id' => 'export',
+                    'class' => 'button green icon-new',
+                    'text' => '{LNG_Download}',
                 )
             ),
             'filters' => array(

@@ -15,7 +15,7 @@ class View extends \Gcms\View{
         $params = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'sale_order' => $request->request('sale_order')->toString(),
+            'so' => $request->request('so')->toString(),
             'customer' => $request->request('customer')->toString(),
             'status' => $request->request('status')->toInt(),
         );
@@ -23,7 +23,7 @@ class View extends \Gcms\View{
         $export = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'sale_order' => $request->request('sale_order')->toString(),
+            'so' => $request->request('so')->toString(),
             'customer' => $request->request('customer')->toString(),
             'status' => $request->request('status')->toInt(),
         );
@@ -79,8 +79,8 @@ class View extends \Gcms\View{
                     ),
                     array(
                         'type' => 'text',
-                        'name' => 'sale_order',
-                        'value' => $params['sale_order'],
+                        'name' => 'so',
+                        'value' => $params['so'],
                         'placeholder' => '{LNG_Sale Order}'
                     ),
                     array(
@@ -134,10 +134,8 @@ class View extends \Gcms\View{
     public function onRow($item, $o, $prop)
     {
 
-        $item['ship_qty'] = number_format((float)$item['ship_qty'], 1, '.', '');
         $item['planed_quantity'] = number_format((float)$item['planed_quantity'], 1, '.', '');
-        $item['diff_qty'] = number_format((float)$item['planed_quantity'], 1, '.', '') - number_format((float)$item['ship_qty'], 1, '.', '');
-
+        $item['diff_qty'] = $item['planed_quantity'] - $item['ship_qty'];
         return $item;
     }
 }
