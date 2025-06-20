@@ -75,6 +75,30 @@ class View extends \Gcms\View
         $groups = $fieldset->add('groups');
 
         $groups->add('text', array(
+            'id' => 'container',
+            'labelClass' => 'g-input icon-customer',
+            'itemClass' => 'width60',
+            'placeholder' => 'container',
+            'label' => '{LNG_Container}',
+            'value' => date('Y-m-d'),
+            'autofocus' => true,
+            'readOnly' => $scan_box
+        ));
+
+        $groups->add('text', array(
+            'id' => 'case_number',
+            'labelClass' => 'g-input icon-customer',
+            'itemClass' => 'width60',
+            'placeholder' => 'Case Number',
+            'label' => '{LNG_Case Number}',
+            'value' => '-',
+            'autofocus' => true,
+            'readOnly' => $scan_box
+        ));
+
+        $groups = $fieldset->add('groups');
+
+        $groups->add('text', array(
             'id' => 'serial_number',
             'labelClass' => 'g-input icon-customer',
             'itemClass' => 'width70',

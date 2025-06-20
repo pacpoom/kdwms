@@ -41,6 +41,32 @@ class Model extends \Kotchasan\Model{
         }
     }
 
+    public static function check_pl($box){
+
+        $where = array(
+            array('box_id', $box)
+        );
+
+        return static::createQuery()
+        ->select('id','box_id','material_id','quantity')
+        ->from('packing_list')
+        ->where($where)
+        ->execute();
+    }
+
+    public static function check_inv($box){
+
+        $where = array(
+            array('serial_number', $box)
+        );
+
+        return static::createQuery()
+        ->select('id','serial_number')
+        ->from('inventory_stock')
+        ->where($where)
+        ->execute();
+    }
+
     public static function toDataTable(){
 
         return static::createQuery()
@@ -101,26 +127,6 @@ class Model extends \Kotchasan\Model{
         ->select('id','material_number','material_name_en')
         ->from('material')
         ->where(array('material_number',$id))
-        ->first();
-    }
-
-    public static function declaration($id,$mat){
-
-        return static::createQuery()
-        ->select('id','declaration_no','material_id','quantity')
-        ->from('declaration')
-        ->where(array(
-            array('declaration_no',$id),
-            array('material_id',$mat)
-        ))
-        ->first();
-    }
-
-    public static function checkSer($id){
-        return static::createQuery()
-        ->select('id','serial_number')
-        ->from('transfer')
-        ->where(array('serial_number',$id))
         ->first();
     }
 
@@ -194,18 +200,123 @@ class Model extends \Kotchasan\Model{
                            
                             if (count($scan_qr) >= 6) {
 
-                                if ($check_box == true) {
+                                $checkBox = \wms\transfer\Model::check_pl($scan_qr[4]);
+
+                                if ($checkBox == true) {
                                     $ret['serial_number']='';
                                     $ret['fault'] = Language::get('Box ID already exists');
                                     $request->removeToken(); 
                                 } else {
                                     if ($scan_qr[3] > 0) {
-                                        
+                                        $checkBox = \wms\transfer\Model::check_inv($scan_qr[4]);
+
+                                        if ($checkBox == true) {
+                                            $ret['serial_number']='';
+                                            $ret['fault'] = Language::get('Box ID already exists');
+                                            $request->removeToken(); 
+                                        } else {
+
+                                            $material_id = \wms\transfer\Model::get_material($scan_qr[1]);
+
+                                            if ($material_id == false) {
+                                                $ret['serial_number'] = '';
+                                                $ret['fault'] = Language::get('Material Number not found');
+                                                $request->removeToken();
+                                            } else {
+
+                                                $material_id = $material_id->id;
+
+                                                $location_code = $request->post('location_code')->toString();
+                                                $get_location = \wms\receive\Model::getLocation($location_code);
+
+                                                $insert_pl = array(
+                                                    'id' => NULL,
+                                                    'storage_location' => 1097,
+                                                    'item_number' => '0000000001',
+                                                    'delivery_order' => '6000000001',
+                                                    'delivery_item_number' => '000001',
+                                                    'delivery_date' => date('Y-m-d'),
+                                                    'container' => $request->post('container')->toString(),
+                                                    'material_id' => $material_id,
+                                                    'case_number' => $request->post('case_number')->toString(),
+                                                    'box_id' => $scan_qr[4],
+                                                    'quantity' => $scan_qr[3],
+                                                    'check_flg' => 1,
+                                                    'check_mat' => 1,
+                                                    'receive_flg' => 1,
+                                                    'temp_container' => $request->post('container')->toString(),
+                                                    'temp_material' => $scan_qr[1],
+                                                    'gr_flg' => 1,
+                                                    'cy_flg' => 0,
+                                                    'container_received' => date('Y-m-d H:i:s'),
+                                                    'file_name' => '-',
+                                                    'sap_wms' => '-',
+                                                    'tr_flg' => 1,
+                                                    'tr_name' => '-',
+                                                    'created_at' => date('Y-m-d H:i:s'),
+                                                    'created_by' => $login['id']
+                                                );
+
+                                                $db->insert($model->getTableName('packing_list'), $insert_pl);
+                                            
+                                                $checkBox = \wms\transfer\Model::check_pl($scan_qr[4]);
+
+                                                $save_stock = array(
+                                                    'id' => NULL,
+                                                   'reference' => $checkBox[0]->id,
+                                                   'job_id' => 0,
+                                                   'serial_number' => $scan_qr[4],
+                                                   'material_id' => $checkBox[0]->material_id,
+                                                   'quantity' => (int)$checkBox[0]->quantity,
+                                                   'actual_quantity' => (int)$checkBox[0]->quantity,
+                                                   'location_id' => $get_location[0]->id,
+                                                   'inbound_date' => date('Y-m-d H:i:s'),
+                                                   'allocate_flg' => 0,
+                                                   'created_at' => date('Y-m-d'),
+                                                   'created_by' => $login['id']
+                                                );
+
+                                                $table = $model->getTableName('inventory_stock');
+                                                $db->insert($table,$save_stock);
+
+                                                $save_tran = array(
+                                                    'id' => NULL,
+                                                    'transaction_date' => date("Y-m-d H:i:s"),
+                                                    'transaction_type' => 'Adjustment Stock',
+                                                    'reference' => $checkBox[0]->id,
+                                                    'serial_number' => $scan_qr[4],
+                                                    'material_id' => $checkBox[0]->material_id,
+                                                    'quantity' => (int)$checkBox[0]->quantity,
+                                                    'from_location' => 0,
+                                                    'location_id' => $get_location[0]->id,
+                                                    'sale_id' => 0,
+                                                    'pallet_id' => 0,
+                                                    'created_at' => date('Y-m-d'),
+                                                    'created_by' => $login['id']
+                                                );
+                                                
+                                                $table = $model->getTableName('transaction');
+                                                $db->insert($table,$save_tran);
+
+                                                $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-transfer', 
+                                                'location_code' => $request->post('location_code')->toString(),
+                                                'status' => 1,'time' => date('H-i-s'))); 
+    
+                                                $ret['message'] = Language::get('Saved successfully');
+                                                $ret['serial_number']='';
+                                                $request->removeToken(); 
+                                            }
+                                        }
+
+                                    } else {
+                                        $ret['serial_number'] = '';
+                                        $ret['fault'] = Language::get('Scan Error 65018');
+                                        $request->removeToken();
                                     }
                                 }
                             } else {
-                                $ret['serial_number'] = 'Please fill in';
-                                $ret['fault'] = Language::get('Scan Error');
+                                $ret['serial_number'] = '';
+                                $ret['fault'] = Language::get('Scan Error 65019');
                                 $request->removeToken();
                             }
                         }
