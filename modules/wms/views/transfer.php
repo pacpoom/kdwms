@@ -34,7 +34,7 @@ class View extends \Gcms\View
      *
      * @return string
      */
-    public function render($material_number,$material_name,$quantity,$location_code,$reference,$declaration_no,$status)
+    public function render($location_code,$status)
     {
 
         
@@ -57,8 +57,19 @@ class View extends \Gcms\View
         ));
 
         $fieldset = $form->add('fieldset', array(
-            'title' => '{LNG_Transfer FG}',
+            'title' => '{LNG_Adjust Stock}',
             'titleClass' => 'icon-profile',
+        ));
+
+        $groups = $fieldset->add('groups');
+
+        $groups->add('text', array(
+            'id' => 'location_code',
+            'labelClass' => 'g-input icon-category',
+            'itemClass' => 'width40',
+            'label' => '{LNG_Location}',
+            'readOnly' => $readonly,
+            'value' => isset($location_code) ? $location_code : '',
         ));
 
         $groups = $fieldset->add('groups');
@@ -68,73 +79,12 @@ class View extends \Gcms\View
             'labelClass' => 'g-input icon-customer',
             'itemClass' => 'width70',
             'placeholder' => 'Scan Qr Code',
+            'label' => '{LNG_Box ID}',
             'value' => '',
             'autofocus' => true,
             'readOnly' => $scan_box
         ));
       
-        $groups = $fieldset->add('groups');
-
-        $groups->add('text', array(
-            'id' => 'job_order',
-            'labelClass' => 'g-input icon-next',
-            'itemClass' => 'width50',
-            'label' => '{LNG_Job No}',
-            'itemClass' => 'width50',
-            'value' => isset($reference) ? $reference : '',
-            'readOnly' => $readonly
-        ));
-
-        $category = \wms\locationdata\Model::init(false);
-
-        $n = 0;
-        foreach (Language::get('INVENTORY_LOCATION', array()) as $key => $label) {
-            $groups->add('text', array(
-                'id' => 'location_code',
-                'labelClass' => 'g-input icon-category',
-                'itemClass' => 'width50',
-                'label' => $label,
-                'datalist' => $category->toSelect($key),
-                'value' => 585,
-                'readOnly' => true
-            ));
-            $n++;
-            if ($n % 2 == 0) {
-                $groups = $fieldset->add('groups');
-            }
-        }
-
-        $groups = $fieldset->add('groups');
-
-        $groups->add('text', array(
-            'id' => 'material_number',
-            'labelClass' => 'g-input icon-next',
-            'itemClass' => 'width70',
-            'label' => '{LNG_Material Number}',
-            'disabled' => true,
-            'value' => isset($material_number) ? $material_number : '',
-        ));
-
-        $groups->add('text', array(
-            'id' => 'qty',
-            'labelClass' => 'g-input icon-next',
-            'itemClass' => 'width30',
-            'label' => '{LNG_Quantity}',
-            'disabled' => true,
-            'value' => isset($quantity) ? $quantity : 0,
-        ));
-
-        $groups = $fieldset->add('groups');
-
-        $groups->add('text', array(
-            'id' => 'material_name',
-            'labelClass' => 'g-input icon-next',
-            'itemClass' => 'width100',
-            'label' => '{LNG_Material Name Eng}',
-            'disabled' => true,
-            'value' => isset($material_name) ? $material_name : '',
-        ));
-
         $groups = $fieldset->add('groups');
 
         $fieldset = $form->add('fieldset', array(

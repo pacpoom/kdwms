@@ -28,23 +28,12 @@ class Controller extends \Gcms\Controller{
         $section->add('header',array(
          'innerHTML'=>'<h4 class="icon-config">'.$this->title.'</h4>'
         ));
-
-        $material_number = '';
-        $reference = '';
-        
-        $material_number = $request->request('material_number')->toString();
-        $material_name = $request->request('material_name')->toString();
-        $quantity = $request->request('quantity')->toString();
+    
         $status = $request->request('status')->toInt();
-        $reference = $request->request('reference')->toString();
-        $location_code = $request->request('location_code')->toInt();
-        $declaration_no = $request->request('declaration_no')->toString();
+        $location_code = $request->request('location_code')->toString();
 
-        $section->appendChild(\wms\transfer\View::create()->render($material_number,$material_name,$quantity,$location_code,$reference,$declaration_no,$status));
+        $section->appendChild(\wms\transfer\View::create()->render($location_code,$status));
 
-        $section->appendChild(\wms\transfer\View::create()->show_data($request,$reference));
-
- 
         return $section->render();
 
     }

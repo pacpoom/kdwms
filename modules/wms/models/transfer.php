@@ -159,142 +159,57 @@ class Model extends \Kotchasan\Model{
         $table = $model->getTableName('transfer'); 
         $table_ccl = $model->getTableName('declaration');
         $table_tran = $model->getTableName('transaction');
+
         if ($request->initSession() && $request->isReferer() && $login = Login::isMember()) {
             if (Login::notDemoMode($login)) {
-                try {
+              
+                    if ($request->post('location_code')->toString() == '') {
+                        $ret['location_code'] = 'Please fill in';
+                        $ret['fault'] = Language::get('Location Incorrect !!');
+                        $request->removeToken();
+                    } else {
+                        if ($request->post('status')->toInt() == 0) {
 
-                    if (strlen($request->post('job_order')->topic()) >= 1) {
+                            $location_code = $request->post('location_code')->toString();
+                            $get_location = \wms\receive\Model::getLocation($location_code);
 
-                        $lot = explode(";",$request->post('job_order')->topic());
+                            if ($get_location == false) {
+                                $ret['location_code']='';
+                                $ret['fault'] = Language::get('Location Incorrect !!');
+                                $request->removeToken();
+                            } else {
 
-                        if (count($lot) != 2 && $request->post('status')->toInt() == 0) {
-                            $ret['job_order']='';
-                            $ret['fault'] = Language::get('Job Order Incorrect');
-                            $request->removeToken();
-                        } else {
-
-                            if (($request->post('status')->toInt() == 0)) {
                                 $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-transfer', 
-                                'material_number' => '', 'material_name' => '', 'quantity' => 0,
-                                'reference' => $lot[1],
-                                'declaration_no' => $lot[1],
-                                'location_code' => $request->post('location_code')->toInt(),
+                                'location_code' => $request->post('location_code')->toString(),
                                 'status' => 1,'time' => date('H-i-s'))); 
     
                                 $ret['message'] = Language::get('Saved successfully');
                                 $ret['serial_number']='';
                                 $request->removeToken(); 
-    
-                            } else {
-                                $scan_qr = explode(";",$request->post('serial_number')->topic());
-    
-                                if (count($scan_qr) == 2){
-                                    
-                                    $check = \wms\transfer\Model::checkSer($scan_qr[0]);
-        
-                                    if ($check == true) {
-        
-                                        $ret['serial_number']='';
-                                        $ret['fault'] = Language::get('Do not double scan');
-                                        $request->removeToken();
-        
-                                    } else {
-        
-                                        $save = array(
-                                            'id' => NULL,
-                                            'serial_number' => $scan_qr[0],
-                                            'quantity' => 1,
-                                            'location_id' => $request->post('location_code')->toInt(),
-                                            'created_at' => date('Y-m-d'),
-                                            'created_by' => $login['id']
-                                        );
-        
-                                        if (empty($save['location_id'])){
-                                            $ret['serial_number']='';
-                                            $ret['ret_location_code'] = 'Please fill in';
-                                        } else {
-            
-                                            $material_number = \wms\transfer\Model::get_material(substr($scan_qr[0],7,7));
-    
-                                            if ($material_number == false) {
-            
-                                                $ret['serial_number']='';
-                                                $ret['fault'] = Language::get('Material Not Maintain');
-                                                $request->removeToken();
-            
-                                            } else {
-        
-                                                $save['declaration_no'] = $request->post('job_order')->topic();
-                                                $save['material_id'] = $material_number->id;
-                                                $db->insert($table,$save);
-        
-                                                $save_tran = array(
-                                                    'id' => NULL,
-                                                    'transaction_date' => date("Y-m-d H:i:s"),
-                                                    'transaction_type' => 'Production To Warehouse(FG)',
-                                                    'reference' => $request->post('job_order')->topic(),
-                                                    'serial_number' => $scan_qr[0],
-                                                    'material_id' => $material_number->id,
-                                                    'quantity' => 1,
-                                                    'from_location' => 0,
-                                                    'location_id' => $request->post('location_code')->toInt(),
-                                                    'created_at' => date('Y-m-d'),
-                                                    'created_by' => $login['id']
-                                                );
-        
-                                                $db->insert($table_tran,$save_tran);
-        
-                                                $save_stock = array(
-                                                    'id' => NULL,
-                                                    'reference' => 0,
-                                                    'job_id' => 0,
-                                                    'serial_number' => $scan_qr[0],
-                                                    'material_id' => $material_number->id,
-                                                    'quantity' => 1,
-                                                    'actual_quantity' => 1,
-                                                    'location_id' => $request->post('location_code')->toInt(),
-                                                    'inbound_date' => date('Y-m-d H:i:s'),
-                                                    'created_at' => date('Y-m-d'),
-                                                    'created_by' => $login['id']
-                                                );
-        
-                                                $table = $model->getTableName('inventory_stock');
-        
-                                                $db->insert($table,$save_stock);
-        
-                                                $ret['location'] = $request->getUri()->postBack('index.php', array('module' => 'wms-transfer', 'material_number' => $material_number->material_number, 'material_name' => $material_number->material_name_en, 'quantity' => 1,
-                                                'reference' => $request->post('job_order')->topic(),
-                                                'declaration_no' => $request->post('job_order')->topic(),
-                                                'location_code' => $request->post('location_code')->toInt(),
-                                                'status' => 1,'time' => date('H-i-s'))); 
-        
-                                                $ret['message'] = Language::get('Saved successfully');
-                                                $ret['serial_number']='';
-                                                $request->removeToken();                                   
-                                            }
-                                       
-                                        }
-        
-                                    }
-        
-                                } else {
-        
+
+                            }
+
+                        } else {
+                            $scan_qr = explode("_",$request->post('serial_number')->topic());
+                           
+                            if (count($scan_qr) >= 6) {
+
+                                if ($check_box == true) {
                                     $ret['serial_number']='';
-                                    $ret['fault'] = Language::get('Please Scan QR Code');
-                                    $request->removeToken();
+                                    $ret['fault'] = Language::get('Box ID already exists');
+                                    $request->removeToken(); 
+                                } else {
+                                    if ($scan_qr[3] > 0) {
+                                        
+                                    }
                                 }
-                            }  
-                        }  
-                    } else {
-
-                        $ret['job_order']='';
-                        $ret['fault'] = Language::get('Job Order Incorrect');
-                        $request->removeToken();
+                            } else {
+                                $ret['serial_number'] = 'Please fill in';
+                                $ret['fault'] = Language::get('Scan Error');
+                                $request->removeToken();
+                            }
+                        }
                     }
-
-                } catch (\Kotchasan\InputItemException $e){
-                    $ret['alert'] = $e->getMessage();
-                }
             }
         } else {
             $ret['fault'] = Language::get('Scan Error');

@@ -728,4 +728,5 @@ return array(
   'Pallet Management' => 'การจัดการพาเลท',
   'Truck Date' => 'วันที่รถบรรทุก',
   'Picking By Box' => 'หยิบงานโดยหมายเลขกล่อง',
+  'Adjust Stock' => 'ปรับสต๊อก',
 );
