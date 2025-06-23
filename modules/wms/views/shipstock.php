@@ -9,10 +9,15 @@ use Kotchasan\Http\Request;
 class View extends \Gcms\View{
     private $category;
     public function render (Request $request){
+     
+        $params = array(
+            'material_number' => $request->request('material_number')->toString(),
+        );
 
-        $params = array();
-        $export = array();
-        
+        $export = array(
+            'material_number' => $request->request('material_number')->toString(),
+        );
+
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         $this->category = \index\category\Model::init(false);
         
@@ -33,6 +38,14 @@ class View extends \Gcms\View{
                     'id' => 'export&'.http_build_query($export),
                     'text' => '{LNG_Download}'
                 )
+            ),
+             'filters' => array(
+                    array(
+                        'type' => 'text',
+                        'name' => 'material_number',
+                        'value' => $params['material_number'],
+                        'placeholder' => '{LNG_Material Number}'
+                    ),
             ),
             'headers' => array(
                 'sale_order' => array(

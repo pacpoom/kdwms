@@ -79,8 +79,11 @@ class Controller extends \Kotchasan\Controller
     }
 
     private function shipstock(Request $request){
+
+        $params = array(
+            'material_number' => $request->request('material_number')->toString(),
+        );
         
-        $params = array();
         $header = \wms\csv\Model::shipstock();
         $datas = array();
         $data = \wms\export\Model::shipstock($params);
