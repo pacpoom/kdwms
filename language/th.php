@@ -729,4 +729,6 @@ return array(
   'Truck Date' => 'วันที่รถบรรทุก',
   'Picking By Box' => 'หยิบงานโดยหมายเลขกล่อง',
   'Adjust Stock' => 'ปรับสต๊อก',
+  'Transfer SAP Report' => 'รายงานโอนย้าย SAP',
+  'Transfer SAP' => 'โอนย้าย SAP',
 );
