@@ -14,7 +14,7 @@ class model extends \Kotchasan\Model{
   
         $where = array();
         $where[] = array('T1.actual_id','!=',0);
-        $where[] = array('T1.truck_confirm',0);
+        $where[] = array('T1.confirm_flg',0);
 
         if (!empty($params['material_number'])) {
             $where[] = array('T1.material_number', $params['material_number']);
