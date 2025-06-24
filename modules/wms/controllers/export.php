@@ -74,9 +74,22 @@ class Controller extends \Kotchasan\Controller
             case 'shipstock' :
                 $this->shipstock($request);
                 break;
+            case 'transfer_sap' :
+                $this->transfer_sap($request);
+                break;
         }
 
     }
+
+    private function transfer_sap(Request $request){
+
+        $header = \wms\csv\Model::transfer_sap();
+        $data = array();
+        $param = 'Template_Transfer_SAP';
+
+        return \Kotchasan\Csv::send($param, $header, $data, self::$cfg->csv_language);
+    }
+
 
     private function shipstock(Request $request){
 

@@ -77,21 +77,12 @@ class View extends \Gcms\View{
         $params = array(
             'from' => $request->request('from')->date(),
             'to' => $request->request('to')->date(),
-            'status' => $request->request('status')->toInt(),
-            'container' => $request->request('container')->toString()
+            'material_number' => $request->request('material_number')->toString()
         );
 
         $export['from']=$request->request('from')->date();
         $export['to']=$request->request('to')->date();
-        $export['status']=$request->request('status')->toInt();
-        $export['container']=$request->request('container')->toString();
-
-        $status = array(
-            0 => 'All',
-            1 => 'Received',
-            2 => 'Not Receive',
-            3 => 'Short Ship',
-        );
+        $export['material_number']=$request->request('material_number')->toString();
 
         $uri = $request->createUriWithGlobals(WEB_URL.'index.php');
         $this->category = \index\category\Model::init(false);
@@ -99,24 +90,15 @@ class View extends \Gcms\View{
         $table = new DataTable(array(
 
             'uri' => $uri,
-            'model' => \wms\packinglist\Model::toDataTable($params),
+            'model' => \wms\transfersap\Model::toDataTable($params),
             'perPage' => $request->cookie('perPage',10)->toInt(),
             'onRow' =>array($this,'onRow'),
             'hideColumns' => array('id'),
-            'searchColumns' => array('id','material_number','container','case_number','box_id'),
+            'searchColumns' => array('id','material_number','source_location','receive_location'),
             'hideCheckbox' => false,
-            'action' => 'index.php/wms/model/packinglist/action',
+            'action' => 'index.php/wms/model/transfersap/action',
             'actionCallback' =>'dataTableActionCallback',
             'actions' => array(
-                array(
-                    'id' => 'action',
-                    'class' => 'ok',
-                    'text' => '{LNG_With selected}',
-                    'options' => array(
-                        'print' => '{LNG_Print}',
-                        'short' => '{LNG_Short Shipment}',
-                    )
-                ),
                 array(
                     'class' => 'button orange icon-excel',
                     'id' => 'export&'.http_build_query($export),
@@ -139,49 +121,38 @@ class View extends \Gcms\View{
                 'placeholder' => 'วันสิ้นสุด'
                 ),
                 array(
-                    'name' => 'status',
-                    'text' => '{LNG_Status}',
-                    'options' => $status,
-                    'value' => $params['status']
-                ),
-                array(
                     'type' => 'text',
-                    'name' => 'container',
-                    'value' => $params['container'],
-                    'placeholder'=> '{LNG_Container Number}'
+                    'name' => 'material_number',
+                    'value' => $params['material_number'],
+                    'placeholder'=> '{LNG_Material Number}'
                 ),
             ),
             'headers' => array(
-                'container' => array(
-                    'text' => '{LNG_Container}'
-                ),
-                'case_number' => array(
-                    'text' => '{LNG_Case Number}'
-                ),
-                'storage_location' => array(
-                    'text' => '{LNG_Storage Location}'
-                ),
-                'container_received' => array(
-                    'text' => '{LNG_Container Received}'
-                ),
-                'box_id' => array(
-                    'text' => '{LNG_Box Number}'
-                ),
                 'material_number' => array(
                     'text' => '{LNG_Material Number}'
                 ),
-                'material_name_en' => array(
-                    'text' => '{LNG_Material Name Eng}'
+                'source_location' => array(
+                    'text' => '{LNG_Source Location}'
                 ),
-                'unit' => array(
-                    'text' => '{LNG_Unit}'
+                'receive_location' => array(
+                    'text' => '{LNG_Receive Location}'
                 ),
-                'quantity' => array(
+                'qty' => array(
                     'text' => '{LNG_Quantity}'
                 ),
-                'receive_flg' => array(
-                    'text' => '{LNG_Status}'
-                )
+                'tr_flg' => array(
+                    'text' => '{LNG_Transfer Status}'
+                ),
+                'user_name' => array(
+                    'text' => '{LNG_User Name}'
+                ),
+                'created_at' => array(
+                    'text' => '{LNG_Created}',
+                    'class' => 'date'
+                ),
+                'file_name' => array(
+                    'text' => '{LNG_File Name}'
+                ),
             )
         ));
                 // save cookie
@@ -193,21 +164,6 @@ class View extends \Gcms\View{
 
     public function onRow($item, $o, $prop)
     {
-
-        if ($item['receive_flg'] == 0) {
-            $item['receive_flg'] = "<center><mark class=term2>{LNG_Waiting Receive}</mark></center>";
-        } elseif ($item['receive_flg'] == 1)  {
-            $item['receive_flg'] = "<center><mark class=term6>Received</mark></center>";
-        } elseif ($item['receive_flg'] == 2) {
-            $item['receive_flg'] = "<center><mark class=term3>Short Ship</mark></center>";
-        }
-
-        if ($item['storage_location'] == 1094) {
-            $item['storage_location'] = "<center><mark class=term3>CKD</mark></center>";
-        } else {
-            $item['storage_location'] = "<center><mark class=term4>KD</mark></center>";
-        }
-
         return $item;
     }
 }

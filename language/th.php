@@ -731,4 +731,8 @@ return array(
   'Adjust Stock' => 'ปรับสต๊อก',
   'Transfer SAP Report' => 'รายงานโอนย้าย SAP',
   'Transfer SAP' => 'โอนย้าย SAP',
+  'Source Location' => 'ตำแหน่งต้นทาง',
+  'Destination Location' => 'ตำแหน่งปลายทาง',
+  'Receive Location' => 'ตำแหน่งรับ',
+  'Transfer Status' => 'สถานะการโอนย้าย',
 );

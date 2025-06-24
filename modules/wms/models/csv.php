@@ -109,6 +109,17 @@ class Model extends \Kotchasan\KBase
         return $header;
     }
 
+    public static function transfer_sap(){
+
+        $header = array();
+        $header['material_number'] = Language::trans('{LNG_Material Number}');
+        $header['source_location'] = Language::trans('{LNG_Source Location}');
+        $header['receive_location'] = Language::trans('{LNG_Receive Location}');
+        $header['qty'] = Language::trans('{LNG_Quantity}');
+
+        return $header;
+    }
+
      public static function containers(){
 
         $header = array();

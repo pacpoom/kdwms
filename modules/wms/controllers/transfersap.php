@@ -28,9 +28,9 @@ class Controller extends \Gcms\Controller{
          'innerHTML'=>'<h4 class="icon-config">'.$this->title.'</h4>'
         ));
         
-        $section->appendChild(\wms\packinglist\View::create()->import($request));
+        $section->appendChild(\wms\transfersap\View::create()->import($request));
 
-        $section->appendChild(\wms\packinglist\View::create()->render($request));
+        $section->appendChild(\wms\transfersap\View::create()->render($request));
  
         return $section->render();
 
