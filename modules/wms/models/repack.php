@@ -233,7 +233,7 @@ class Model extends \Kotchasan\Model{
                                             'file_name' => '-',
                                             'tr_flg' => 1,
                                             'tr_name' => 'Repack',
-                                            'sap_wms' => '-',
+                                            'unit' => '-',
                                             'created_at' => date('Y-m-d H:i:s'),
                                             'created_by' => $login['id'],
                                         );
