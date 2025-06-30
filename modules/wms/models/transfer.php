@@ -250,7 +250,7 @@ class Model extends \Kotchasan\Model{
                                                     'cy_flg' => 0,
                                                     'container_received' => date('Y-m-d H:i:s'),
                                                     'file_name' => '-',
-                                                    'sap_wms' => '-',
+                                                    'unit' => '-',
                                                     'tr_flg' => 1,
                                                     'tr_name' => '-',
                                                     'created_at' => date('Y-m-d H:i:s'),
