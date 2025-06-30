@@ -257,6 +257,7 @@ class Model extends \Kotchasan\Model{
                                                     'created_by' => $login['id']
                                                 );
 
+                                                // บันทึกข้อมูลลงฐานข้อมูล
                                                 $db->insert($model->getTableName('packing_list'), $insert_pl);
                                             
                                                 $checkBox = \wms\transfer\Model::check_pl($scan_qr[4]);
