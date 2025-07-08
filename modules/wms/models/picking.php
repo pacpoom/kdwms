@@ -164,6 +164,20 @@ class Model extends \Kotchasan\Model{
 
     }
 
+    public static function GetQty($so,$material){
+
+        $where = array();
+        $where[] = array('T1.sale_order',$so);
+        $where[] = array('T1.material_number',$material);
+
+        return static::createQuery()
+        ->select(SQL::SUM('T1.quantity','quantity'))
+        ->from('delivery_order T1')
+        ->where($where)
+        ->execute();
+
+    }
+
     public static function GetSoId($so,$mat){
 
         $where = array();
