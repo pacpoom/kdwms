@@ -202,7 +202,7 @@ class Model extends \Kotchasan\Model{
                                         $ret['destination']='';
                                         $ret['fault'] = Language::get('Material Number Not Macth Label !!');
                                         $request->removeToken(); 
-                                    } elseif ($scan_qr[3] > $request->post('qty')->toInt()) {
+                                    } elseif ($scan_qr[3] > $request->post('qty')->topic()) {
                                         $ret['destination']='';
                                         $ret['fault'] = Language::get('New Labe Over Qty !!');
                                         $request->removeToken(); 
@@ -249,8 +249,8 @@ class Model extends \Kotchasan\Model{
                                             'job_id' => 0,
                                             'serial_number' => $destination,
                                             'material_id' => $checkBox[0]->material_id,
-                                            'quantity' => (int)$checkBox[0]->quantity,
-                                            'actual_quantity' => (int)$checkBox[0]->quantity,
+                                            'quantity' => $checkBox[0]->quantity,
+                                            'actual_quantity' => $checkBox[0]->quantity,
                                             'location_id' => 2284,
                                             'inbound_date' => date('Y-m-d H:i:s'),
                                             'allocate_flg' => 0,
@@ -281,7 +281,7 @@ class Model extends \Kotchasan\Model{
                                             'reference' =>  $check_box[0]->id,
                                             'serial_number' => $request->post('serial_number')->toString(),
                                             'material_id' => $check_box[0]->material_id,
-                                            'quantity' => -(int)$checkBox[0]->quantity,
+                                            'quantity' => $checkBox[0]->quantity,
                                             'from_location' => 0,
                                             'location_id' => $check_box[0]->location_id,
                                             'sale_id' => 0,
@@ -301,7 +301,7 @@ class Model extends \Kotchasan\Model{
                                             'reference' =>  $checkBox[0]->id,
                                             'serial_number' => $destination,
                                             'material_id' => $checkBox[0]->material_id,
-                                            'quantity' => (int)$checkBox[0]->quantity,
+                                            'quantity' => $checkBox[0]->quantity,
                                             'from_location' => 0,
                                             'location_id' => 2284,
                                             'sale_id' => 0,

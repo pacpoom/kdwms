@@ -126,7 +126,7 @@ class View extends \Gcms\View
             'value' => isset($material_number) ? $material_number : '',
         ));
 
-        $groups->add('number', array(
+        $groups->add('text', array(
             'id' => 'des_qty',
             'labelClass' => 'g-input icon-next',
             'itemClass' => 'width70',

@@ -98,8 +98,8 @@ class Model extends \Kotchasan\Model{
                             'box_id' =>  $box_id,
                             'material' => $request->post('material_number')->toString(),
                             'material_name' => $request->post('material_name')->toString(),
-                            'qty' => $request->post('number')->toInt(),
-                            'qr_code' => '0010000475_'.$request->post('material_number')->toString().'_B060501_'.$request->post('number')->toInt().'_'. $box_id.'_A100',
+                            'qty' => $request->post('number')->topic(),
+                            'qr_code' => '0010000475_'.$request->post('material_number')->toString().'_B060501_'.$request->post('number')->topic().'_'. $box_id.'_A100',
                             'delivery_date' => $request->post('delivery')->date(),
                         );
 

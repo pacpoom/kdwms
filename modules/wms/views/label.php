@@ -81,7 +81,7 @@ class View extends \Gcms\View
             'value' => date('Y-m-d')
         ));
 
-        $groups->add('number', array(
+        $groups->add('text', array(
             'id' => 'number',
             'labelClass' => 'g-input icon-shipping',
             'itemClass' => 'width30',
